@@ -19,11 +19,12 @@ class DatabaseSeeder extends Seeder
             PessoaEnderecoSeeder::class,
             
             ServidorEfetivoSeeder::class,
-            ServidorTemporarioSeeder::class,
-            ServidorTemporarioSeeder::class,
+            ServidorTemporarioSeeder::class,            
 
             UnidadeSeeder::class,
             UnidadeEnderecoSeeder::class,
+
+            UserSeeder::class,
         ]);
 
         // \App\Models\User::factory(10)->create();

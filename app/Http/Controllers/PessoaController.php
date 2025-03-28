@@ -7,26 +7,33 @@ use App\Models\PessoaEndereco;
 use Illuminate\Http\Request;
 
 class PessoaController extends Controller
-{    
+{
+    /**
+    *  @OA\GET(
+    *      path="/api/pessoa",
+    *      summary="Todas as Pessoas",
+    *      description="Lista as Pessoas com seu endereço",
+    *      tags={"Pessoas"},
+    *     @OA\Parameter(
+    *         name="page",
+    *         in="query",
+    *         description="Nº da página",
+    *         required=false,
+    *      ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="OK",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */
     public function index()
     {
-        /**
-        *  @OA\GET(
-        *      path="/api/pessoas",
-        *      summary="Lista todas as Pessoas",
-        *      description="Lista todas as Pessoas",
-        *      tags={"Pessoas"},
-        *
-        *  )
-        */
-
-        $pessoa = Pessoa::all();        
-        return response()->json($pessoa);   
-        
-        return response()->json([
-            'message' => 'Welcome to the API',
-            'data' => $pessoa
-          ]);
+        $pessoa = Pessoa::with('pessoaEndereco')->paginate(10);      
+        return response()->json($pessoa);
     }
     
     public function create()
@@ -34,6 +41,62 @@ class PessoaController extends Controller
         //
     }
     
+    /**
+    *  @OA\POST(
+    *      path="/api/pessoa",
+    *      summary="Cadastra nova Pessoa",
+    *      description="Registra uma nova Pessoa",
+    *      tags={"Pessoas"},
+    *      @OA\Parameter(
+    *         name="pes_id",
+    *         in="query",
+    *         description="Nº de identifição da Pessoa",
+    *         required=true,
+    *      ),
+    *     @OA\Parameter(
+    *         name="pes_nome",
+    *         in="query",
+    *         description="Nome",
+    *         required=true,
+    *      ),
+    *     @OA\Parameter(
+    *         name="pes_data_nascimento",
+    *         in="query",
+    *         description="Data Nascimento",
+    *         required=true,
+    *      ),
+    *     @OA\Parameter(
+    *         name="pes_sexo",
+    *         in="query",
+    *         description="Sexo (M / F)",
+    *         required=true,
+    *      ),
+    *     @OA\Parameter(
+    *         name="pes_mae",
+    *         in="query",
+    *         description="Nome da Mãe",
+    *         required=true,
+    *      ),
+    *     @OA\Parameter(
+    *         name="pes_pai",
+    *         in="query",
+    *         description="Nome do Pai",
+    *         required=true,
+    *      ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="OK",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Pessoa não encontrada"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */
     public function store(Request $request)
     {
         $validadeData = $request->validate([
@@ -56,15 +119,73 @@ class PessoaController extends Controller
 
         return response()->json($pessoa, 201);
     }
-
     
-    public function show(Pessoa $pessoa)
+    /**
+    *  @OA\GET(
+    *      path="/api/pessoa/{pes_id}",
+    *      summary="Mostra uma Pessoa",
+    *      description="Pesquisa por uma pessoa através do (pes_id)",
+    *      tags={"Pessoas"},
+    *     @OA\Parameter(
+     *         name="pes_id",
+     *         in="path",
+     *         required=true,
+     *         description="Nº de identificação da pessoa",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Pessoa Encontrada",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Pessoa não encontrada"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */
+    public function show(string $pes_id)
     {
-        $pessoa = Pessoa::where('pes_id', $pessoa->pes_id)->with('pessoaEndereco')->first();
-        return response()->json($pessoa);
+        $pessoa = Pessoa::where('pes_id', $pes_id)->with('pessoaEndereco')->first();        
+
+        if (!$pessoa) {
+            //return response('Não encontrado', 404)->json();
+            return response()->json(['message' => 'Pessoa não encontrada', 404]);
+        }
+        return response()->json(['message' => 'Pessoa encontrada','pessoa' => $pessoa]);
     }
 
-    
+
+    /**
+    *  @OA\PUT(
+    *      path="/api/pessoa/{pes_id}",
+    *      summary="Atualizar dados de uma Pessoa",
+    *      description="Editar os dados de uma pessoa através do (pes_id)",
+    *      tags={"Pessoas"},
+    *     @OA\Parameter(
+     *         name="pes_id",
+     *         in="path",
+     *         required=true,
+     *         description="Nº de identificação da pessoa",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Dados da Pessoa atualizado com sucesso.",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Erro ao atualizar a Pessoa"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */    
     public function edit(Pessoa $pessoa)
     {
         //
@@ -87,6 +208,33 @@ class PessoaController extends Controller
         return response()->json($pessoa, 200);
     }
 
+    /**
+    *  @OA\DELETE(
+    *      path="/api/pessoa/{pes_id}",
+    *      summary="Exclui uma Pessoa",
+    *      description="Exclui uma pessoa através do (pes_id)",
+    *      tags={"Pessoas"},
+    *     @OA\Parameter(
+     *         name="pes_id",
+     *         in="path",
+     *         required=true,
+     *         description="ID da pessoa",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Pessoa excluída com sucesso",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Não foi possível excluir a pessoa"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */
     public function destroy(Pessoa $pessoa)
     {
         $pessoa->delete();

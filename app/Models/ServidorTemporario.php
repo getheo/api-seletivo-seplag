@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ServidorTemporario extends Model
 {
@@ -15,8 +16,8 @@ class ServidorTemporario extends Model
     // Colunas que podem ser preenchidas em massa (opcional)
     protected $fillable = ['pes_id', 'st_data_admissao', 'st_data_demissao'];
 
-    public function pessoa()
+    public function pessoa(): BelongsTo
     {
-        return $this->belongsTo(Pessoa::class);
+        return $this->belongsTo(Pessoa::class, 'pes_id')->with('endereco');
     }
 }

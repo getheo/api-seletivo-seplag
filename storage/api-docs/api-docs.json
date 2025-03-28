@@ -1,0 +1,1109 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Api Seletivo Seplag Gov-MT",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Autenticar usuário",
+                "operationId": "a3b306d14572d1f4bd6c064b3233e7b8",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Informe o email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "teste@seplag.mt.gov.br"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Informe a senha",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "seplag2025"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successo no Login"
+                    },
+                    "401": {
+                        "description": "Credenciais inválidas"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Logout",
+                "operationId": "fe8f3429cd6979b3b4517e186505f9f9",
+                "responses": {
+                    "200": {
+                        "description": "Deslogou com sucesso"
+                    },
+                    "401": {
+                        "description": "Erro para deslogar"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/refresh": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Renovar Token",
+                "operationId": "2c27d311a2876560fcb5a754b556cdc5",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Informe um email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "teste@seplag.mt.gov.br"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Insira a senha",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "seplag2025"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successo no Login"
+                    },
+                    "401": {
+                        "description": "Credenciais inválidas"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/cidade": {
+            "get": {
+                "tags": [
+                    "Cidades"
+                ],
+                "summary": "Mostra as Cidades cadastradas",
+                "description": "Lista as Cidades",
+                "operationId": "1eec1560cb76079fb0c015e722618860",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Nº da página",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Cidades"
+                ],
+                "summary": "Cadastra uma nova Cidade",
+                "description": "Registro de uma nova Cidade",
+                "operationId": "a54ec416b780e0b13c71a29f0622f3c8",
+                "parameters": [
+                    {
+                        "name": "cid_id",
+                        "in": "query",
+                        "description": "Nº de identifição da Cidade",
+                        "required": true
+                    },
+                    {
+                        "name": "cid_nome",
+                        "in": "query",
+                        "description": "Nome da cidade",
+                        "required": true
+                    },
+                    {
+                        "name": "cid_uf",
+                        "in": "query",
+                        "description": "UF",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Cidade não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/cidade/{cid_id}": {
+            "get": {
+                "tags": [
+                    "Cidades"
+                ],
+                "summary": "Mostra uma Cidade",
+                "description": "Pesquisa por uma cidade através do (cid_id)",
+                "operationId": "d50c61e536407329b142a652dd041baf",
+                "parameters": [
+                    {
+                        "name": "cid_id",
+                        "in": "path",
+                        "description": "Nº de identificação da cidade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cidade Encontrada",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Cidade não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Cidades"
+                ],
+                "summary": "Atualizar dados de uma Cidade",
+                "description": "Editar os dados de uma Cidade através do (cid_id)",
+                "operationId": "128b17383e3e8de4876014f3ace6ca65",
+                "parameters": [
+                    {
+                        "name": "cid_id",
+                        "in": "path",
+                        "description": "Nº de identificação da Cidade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados da Cidade atualizado com sucesso.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Erro ao atualizar a Cidade"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Cidades"
+                ],
+                "summary": "Exclui uma Cidade",
+                "description": "Exclui uma Cidde através do (cid_id)",
+                "operationId": "e9ed713c0e97583a24b97b0f3e835002",
+                "parameters": [
+                    {
+                        "name": "cid_id",
+                        "in": "path",
+                        "description": "ID da Cidade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cidade excluída com sucesso",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Não foi possível excluir a Cidade"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/endereco": {
+            "get": {
+                "tags": [
+                    "Endereços"
+                ],
+                "summary": "Mostra os Endereços cadastrados",
+                "description": "Lista os Endereços",
+                "operationId": "9c10249b6d54a91b77e519f61d558174",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Nº da página",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Endereços"
+                ],
+                "summary": "Cadastra um novo Endereço",
+                "description": "Registro de um novo Endereço",
+                "operationId": "3768fdb817d263ccfb30b72455588fb5",
+                "parameters": [
+                    {
+                        "name": "end_id",
+                        "in": "query",
+                        "description": "Nº de identifição do Endereço",
+                        "required": true
+                    },
+                    {
+                        "name": "end_tipo_logradouro",
+                        "in": "query",
+                        "description": "Tipo logradouro",
+                        "required": true
+                    },
+                    {
+                        "name": "end_logradouro",
+                        "in": "query",
+                        "description": "Logradouro",
+                        "required": true
+                    },
+                    {
+                        "name": "end_numero",
+                        "in": "query",
+                        "description": "Número",
+                        "required": true
+                    },
+                    {
+                        "name": "end_bairro",
+                        "in": "query",
+                        "description": "Bairro",
+                        "required": true
+                    },
+                    {
+                        "name": "cid_id",
+                        "in": "query",
+                        "description": "Nº de identificação da Cidade",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Endereço não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/endereco/{end_id}": {
+            "get": {
+                "tags": [
+                    "Endereços"
+                ],
+                "summary": "Mostra um Endereco",
+                "description": "Pesquisa por um Endereço através do (end_id)",
+                "operationId": "6b6140ac69a6ca0ebccf35442a062420",
+                "parameters": [
+                    {
+                        "name": "end_id",
+                        "in": "path",
+                        "description": "Nº de identificação do Endereço",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Endereço Encontrado",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Endereço não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Endereços"
+                ],
+                "summary": "Atualizar dados de um Endereço",
+                "description": "Editar os dados de um Endereço através do (end_id)",
+                "operationId": "8b02ed4414290f74a731935477be7b5b",
+                "parameters": [
+                    {
+                        "name": "end_id",
+                        "in": "path",
+                        "description": "Nº de identificação do Endereço",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do Endereço atualizado com sucesso.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Erro ao atualizar o Endereço"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Endereços"
+                ],
+                "summary": "Exclui um Endereço",
+                "description": "Exclui um Endereço através do (end_id)",
+                "operationId": "aae5b72b297631baa40389a5846e6308",
+                "parameters": [
+                    {
+                        "name": "end_id",
+                        "in": "path",
+                        "description": "ID do Endereço",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Endereço excluído com sucesso",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Não foi possível excluir o Endereço"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/foto-pessoa": {
+            "get": {
+                "tags": [
+                    "Fotos Pessoas"
+                ],
+                "summary": "Mostra as Foto das Pessoas",
+                "description": "Lista as fotos das pessoas",
+                "operationId": "a0f2d231107370d4c09d8b3673df998c",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Nº da página",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Fotos Pessoas"
+                ],
+                "summary": "Cadastra uma nova Foto da Pessoa",
+                "description": "Registro de uma nova Foto",
+                "operationId": "96add2c3331ed68c16e515a4d3e69f62",
+                "parameters": [
+                    {
+                        "name": "fp_id",
+                        "in": "query",
+                        "description": "Nº de identifição da Foto",
+                        "required": true
+                    },
+                    {
+                        "name": "pes_id",
+                        "in": "query",
+                        "description": "Nº de identificação da Pessoa",
+                        "required": true
+                    },
+                    {
+                        "name": "fp_data",
+                        "in": "query",
+                        "description": "Data do cadastro da foto",
+                        "required": true
+                    },
+                    {
+                        "name": "fp_bucket",
+                        "in": "query",
+                        "description": "Identificação do Bucket da Foto",
+                        "required": true
+                    },
+                    {
+                        "name": "fp_hash",
+                        "in": "query",
+                        "description": "Código de cadastro da Foto",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Foto não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/foto-pessoa/{fp_id}": {
+            "get": {
+                "tags": [
+                    "Fotos Pessoas"
+                ],
+                "summary": "Mostra uma Foto",
+                "description": "Pesquisa por uma foto através do (fp_id)",
+                "operationId": "82d70413c9f48a5df23813ccd5dbee11",
+                "parameters": [
+                    {
+                        "name": "fp_id",
+                        "in": "path",
+                        "description": "Nº de identificação da foto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Foto Encontrada",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Foto não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Fotos Pessoas"
+                ],
+                "summary": "Atualizar dados de uma Foto",
+                "description": "Editar os dados de uma Foto através do (fp_id)",
+                "operationId": "4c1acc7123d4160acf2850c4b9441754",
+                "parameters": [
+                    {
+                        "name": "fp_id",
+                        "in": "path",
+                        "description": "Nº de identificação da Foto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados da Foto atualizado com sucesso.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Erro ao atualizar a Foto"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Fotos Pessoas"
+                ],
+                "summary": "Exclui uma Foto",
+                "description": "Exclui uma Foto através do (fp_id)",
+                "operationId": "dd9b2f73c0486c29ba54c923eb51a87b",
+                "parameters": [
+                    {
+                        "name": "fp_id",
+                        "in": "path",
+                        "description": "ID da Foto",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Foto excluída com sucesso",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Não foi possível excluir a Foto"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/lotacoes": {
+            "get": {
+                "tags": [
+                    "Lotações"
+                ],
+                "summary": "Todas as Lotações",
+                "description": "Lista as Lotações",
+                "operationId": "f6093ec53b1be954d3c69429b1d5b509",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Nº de páginas",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Lotação não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/pessoas": {
+            "get": {
+                "tags": [
+                    "Pessoas"
+                ],
+                "summary": "Todas as Pessoas",
+                "description": "Lista as Pessoas com seu endereço",
+                "operationId": "7c7d2c9decc48109bcd470035e629ecb",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Nº da página",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Pessoas"
+                ],
+                "summary": "Cadastra nova Pessoa",
+                "description": "Registra uma nova Pessoa",
+                "operationId": "b72258a0649966eb7cb39a9fdc67bf4b",
+                "parameters": [
+                    {
+                        "name": "pes_id",
+                        "in": "query",
+                        "description": "Nº de identifição da Pessoa",
+                        "required": true
+                    },
+                    {
+                        "name": "pes_nome",
+                        "in": "query",
+                        "description": "Nome",
+                        "required": true
+                    },
+                    {
+                        "name": "pes_data_nascimento",
+                        "in": "query",
+                        "description": "Data Nascimento",
+                        "required": true
+                    },
+                    {
+                        "name": "pes_sexo",
+                        "in": "query",
+                        "description": "Sexo (M / F)",
+                        "required": true
+                    },
+                    {
+                        "name": "pes_mae",
+                        "in": "query",
+                        "description": "Nome da Mãe",
+                        "required": true
+                    },
+                    {
+                        "name": "pes_pai",
+                        "in": "query",
+                        "description": "Nome do Pai",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Pessoa não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/pessoas/{pes_id}": {
+            "get": {
+                "tags": [
+                    "Pessoas"
+                ],
+                "summary": "Mostra uma Pessoa",
+                "description": "Pesquisa por uma pessoa através do (pes_id)",
+                "operationId": "f490b46f6561c989d675f3b199c1490e",
+                "parameters": [
+                    {
+                        "name": "pes_id",
+                        "in": "path",
+                        "description": "Nº de identificação da pessoa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pessoa Encontrada",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Pessoa não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Pessoas"
+                ],
+                "summary": "Atualizar dados de uma Pessoa",
+                "description": "Editar os dados de uma pessoa através do (pes_id)",
+                "operationId": "001872c803d906f11ad57e0f32a9b3ce",
+                "parameters": [
+                    {
+                        "name": "pes_id",
+                        "in": "path",
+                        "description": "Nº de identificação da pessoa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados da Pessoa atualizado com sucesso.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Erro ao atualizar a Pessoa"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Pessoas"
+                ],
+                "summary": "Exclui uma Pessoa",
+                "description": "Exclui uma pessoa através do (pes_id)",
+                "operationId": "5fcdf288eb3ff5d0662ddc0bf16dab9c",
+                "parameters": [
+                    {
+                        "name": "pes_id",
+                        "in": "path",
+                        "description": "ID da pessoa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pessoa excluída com sucesso",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Não foi possível excluir a pessoa"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/servidor-efetivo": {
+            "get": {
+                "tags": [
+                    "Servidores Efetivos"
+                ],
+                "summary": "Servidores Efetivos",
+                "description": "Lista todos os Servidores Efetivos ligados a sua Unidade-Lotação",
+                "operationId": "4b1c83d6265f7aad3977994940ab58c8",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": false
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page Number",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Servidores efetivos não encontrados"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/servidor-temporario": {
+            "get": {
+                "tags": [
+                    "Servidores Temporários"
+                ],
+                "summary": "Servidores Temporários",
+                "description": "Lista todos os Servidores Temporários ligados a sua Unidade/Lotação",
+                "operationId": "267ac3162f73afe133db19d09dea76a0",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name",
+                        "required": false
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email",
+                        "required": false
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Nº de páginas",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Pessoa não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/unidades": {
+            "get": {
+                "tags": [
+                    "Unidades"
+                ],
+                "summary": "Unidades",
+                "description": "Lista todas as Unidades e sua Lotação",
+                "operationId": "0c9baef10d156dabf3eeb1740c369edf",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Nº de páginas",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Unidade não encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Autenticação",
+            "description": "Autenticação"
+        },
+        {
+            "name": "Cidades",
+            "description": "Cidades"
+        },
+        {
+            "name": "Endereços",
+            "description": "Endereços"
+        },
+        {
+            "name": "Fotos Pessoas",
+            "description": "Fotos Pessoas"
+        },
+        {
+            "name": "Lotações",
+            "description": "Lotações"
+        },
+        {
+            "name": "Pessoas",
+            "description": "Pessoas"
+        },
+        {
+            "name": "Servidores Efetivos",
+            "description": "Servidores Efetivos"
+        },
+        {
+            "name": "Servidores Temporários",
+            "description": "Servidores Temporários"
+        },
+        {
+            "name": "Unidades",
+            "description": "Unidades"
+        }
+    ]
+}

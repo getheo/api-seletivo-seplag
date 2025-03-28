@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Unidade extends Model
 {
@@ -14,4 +15,10 @@ class Unidade extends Model
 
     // Colunas que podem ser preenchidas em massa (opcional)
     protected $fillable = ['unid_id', 'unid_nome', 'unid_sigla'];
+
+    public function unidadeEndereco(): HasOne
+    {
+        return $this->HasOne(UnidadeEndereco::class, 'unid_id')->with('endereco');
+    }
+
 }

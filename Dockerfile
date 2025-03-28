@@ -22,7 +22,7 @@ COPY . .
 # Definir permissões
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-CMD php artisan serve --host=0.0.0.0 --port=8000
+CMD php artisan serve --host=0.0.0.0 --port=8000 php artisan migrate:fresh php artisan db:seed php artisan l5-swagger:generate
 
 # Expor a porta 80
 EXPOSE 80

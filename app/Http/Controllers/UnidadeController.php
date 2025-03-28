@@ -8,58 +8,74 @@ use Illuminate\Http\Request;
 class UnidadeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
+    *  @OA\GET(
+    *      path="/api/unidades",
+    *      summary="Unidades",
+    *      description="Lista todas as Unidades e sua Lotação",
+    *      tags={"Unidades"},
+    *     @OA\Parameter(
+    *         name="page",
+    *         in="query",
+    *         description="Nº de páginas",
+    *         required=false,
+    *      ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="OK",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Unidade não encontrada"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */    
     public function index()
     {
-        //
+        $unidade = Unidade::with('unidadeEndereco')->get();        
+        return response()->json($unidade);  
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Unidade $unidade)
     {
-        //
+        $unidade = Unidade::where('unid_id', $unidade->unid_id)->with('unidadeEndereco')->first();
+        return response()->json($unidade);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Unidade $unidade)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Unidade $unidade)
     {
-        //
+        $validadeData = $request->validate([
+            'unid_id' => 'required|integer',
+            'unid_nome' => 'required|string',
+            'unid_sigla' => 'required|string',
+        ]);
+
+        $unidade->update($validadeData);
+
+        return response()->json($unidade, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Unidade $unidade)
     {
-        //
+        $unidade->delete();
+        return response()->json(null, 204);
     }
 }

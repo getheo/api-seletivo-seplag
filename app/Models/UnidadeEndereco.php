@@ -14,4 +14,9 @@ class UnidadeEndereco extends Model
 
     // Colunas que podem ser preenchidas em massa (opcional)
     protected $fillable = ['unid_id', 'end_id'];
+
+    public function endereco()
+    {
+        return $this->belongsTo(Endereco::class, 'end_id');
+    }
 }

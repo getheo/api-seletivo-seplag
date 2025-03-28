@@ -8,8 +8,44 @@ use Illuminate\Http\Request;
 class ServidorTemporarioController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
+    *  @OA\GET(
+    *      path="/api/servidor-temporario",
+    *      summary="Servidores Temporários",
+    *      description="Lista todos os Servidores Temporários ligados a sua Unidade/Lotação",
+    *      tags={"Servidores Temporários"},
+    *      @OA\Parameter(
+    *         name="name",
+    *         in="query",
+    *         description="name",
+    *         required=false,
+    *      ),
+    *     @OA\Parameter(
+    *         name="email",
+    *         in="query",
+    *         description="email",
+    *         required=false,
+    *      ),
+    *     @OA\Parameter(
+    *         name="page",
+    *         in="query",
+    *         description="Nº de páginas",
+    *         required=false,
+    *      ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="OK",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Pessoa não encontrada"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */
+    
     public function index()
     {
         $servidorTemporario = ServidorTemporario::all();

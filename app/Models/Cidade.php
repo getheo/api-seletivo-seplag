@@ -13,7 +13,7 @@ class Cidade extends Model
     protected $table = 'cidade';
 
     // Colunas que podem ser preenchidas em massa (opcional)
-    protected $fillable = ['cid_nome', 'cid_uf'];
+    protected $fillable = ['cid_id', 'cid_nome', 'cid_uf'];
 
     public function endereco()
     {

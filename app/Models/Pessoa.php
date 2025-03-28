@@ -21,9 +21,9 @@ class Pessoa extends Model
         return $this->belongsTo(ServidorTemporario::class);
     }
 
-    public function servidorEfetivo()
+    public function servidorEfetivo(): HasOne
     {
-        return $this->belongsTo(ServidorEfetivo::class);
+        return $this->HasOne(ServidorEfetivo::class, 'pes_id');
     }
 
     public function pessoaEndereco(): HasOne
