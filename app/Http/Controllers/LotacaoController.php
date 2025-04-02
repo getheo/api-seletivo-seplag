@@ -9,7 +9,7 @@ class LotacaoController extends Controller
 {
     /**
     *  @OA\GET(
-    *      path="/api/lotacoes",
+    *      path="/api/lotacao",
     *      summary="Todas as Lotações",
     *      description="Lista as Lotações",
     *      tags={"Lotações"},
@@ -35,7 +35,7 @@ class LotacaoController extends Controller
     */
     public function index()
     {
-        $lotacao = Lotacao::with('unidades')->with('pessoas')->get();        
+        $lotacao = Lotacao::with(['pessoa', 'unidade'])->paginate(10);        
         return response()->json($lotacao);  
     }
 
@@ -49,10 +49,78 @@ class LotacaoController extends Controller
         //
     }
 
-    public function show(Lotacao $lotacao)
+    /**
+    *  @OA\GET(
+    *      path="/api/lotacao/{lot_id}",
+    *      summary="Mostra uma Lotação",
+    *      description="Pesquisa por uma Lotação (lot_id)",
+    *      tags={"Lotações"},
+    *     @OA\Parameter(
+     *         name="lot_id",
+     *         in="path",
+     *         required=true,
+     *         description="Nº de identificação da Lotação",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Lotação Encontrada",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Lotação não encontrada"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */
+    public function show(int $lot_id)
     {
-        $lotacao = Lotacao::where('unid_id', $lotacao->unid_id)->with('unidade')->first();
-        return response()->json($lotacao);
+        $lotacao = Lotacao::where('lot_id', $lot_id)->with(['pessoa', 'unidade'])->first();               
+
+        if (!$lotacao) {            
+            return response()->json(['message' => 'Lotação não encontrada', 404]);
+        }
+        return response()->json(['message' => 'Lotação encontrada','lotacao' => $lotacao]);
+    }
+
+    /**
+    *  @OA\GET(
+    *      path="/api/lotacao/unidade/{unid_id}",
+    *      summary="Mostra pessoas lotadas na Unidade",
+    *      description="Pesquisa por pessoas lotadas na Unidade (unid_id)",
+    *      tags={"Lotações"},
+    *     @OA\Parameter(
+     *         name="unid_id",
+     *         in="path",
+     *         required=true,
+     *         description="Nº de identificação da Unidade",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Unidade - Lotação Encontrada",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Unidade - Lotação não encontrada"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */
+    public function showUnidade(int $unid_id)
+    {
+        $lotacao = Lotacao::where('unid_id', $unid_id)->with(['pessoa', 'unidade'])->first();               
+
+        if (!$lotacao) {            
+            return response()->json(['message' => 'Unidade - Lotação não encontrada', 404]);
+        }
+        return response()->json(['message' => 'Unidade - Lotação encontrada','lotacao' => $lotacao]);
     }
 
     public function edit(Lotacao $lotacao)
@@ -60,10 +128,36 @@ class LotacaoController extends Controller
         //
     }
 
+    /**
+    *  @OA\PUT(
+    *      path="/api/lotacao/{lot_id}",
+    *      summary="Atualizar dados de uma Lotação",
+    *      description="Editar os dados de uma Lotação através do (lot_id)",
+    *      tags={"Lotações"},
+    *     @OA\Parameter(
+     *         name="lot_id",
+     *         in="path",
+     *         required=true,
+     *         description="Nº de identificação da lotação",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Dados da Lotação atualizado com sucesso.",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Erro ao atualizar a Lotação"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */ 
     public function update(Request $request, Lotacao $lotacao)
     {
-        $validadeData = $request->validate([
-            'lot_id' => 'required|integer',
+        $validadeData = $request->validate([            
             'pes_id' => 'required|integer',
             'unid_id' => 'required|integer',
             'lot_data_lotacao' => 'required|string',
@@ -75,6 +169,34 @@ class LotacaoController extends Controller
         return response()->json($lotacao, 200);
     }
 
+
+    /**
+    *  @OA\DELETE(
+    *      path="/api/lotacao/{lot_id}",
+    *      summary="Exclui uma Lotação",
+    *      description="Exclui uma Lotação através do (lot_id)",
+    *      tags={"Lotações"},
+    *     @OA\Parameter(
+     *         name="lot_id",
+     *         in="path",
+     *         required=true,
+     *         description="Nº de identificação da Lotação",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Lotação excluída com sucesso",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Não foi possível excluir a Lotação"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */
     public function destroy(Lotacao $lotacao)
     {
         $lotacao->delete();

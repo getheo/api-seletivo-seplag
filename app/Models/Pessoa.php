@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Pessoa extends Model
@@ -12,6 +13,10 @@ class Pessoa extends Model
 
     // Nome da tabela associada à model (opcional)
     protected $table = 'pessoa';
+
+    // Ajustar o primary key
+    protected $primaryKey = 'pes_id';
+    protected $autoIncrement = true;
 
     // Colunas que podem ser preenchidas em massa (opcional)
     protected $fillable = ['pes_id', 'pes_nome', 'pes_data_nascimento', 'pes_sexo', 'pes_mae', 'pes_pai'];
@@ -29,6 +34,11 @@ class Pessoa extends Model
     public function pessoaEndereco(): HasOne
     {
         return $this->HasOne(PessoaEndereco::class, 'pes_id')->with('endereco');
+    }
+
+    public function pessoaFoto(): HasMany
+    {
+        return $this->HasMany(FotoPessoa::class, 'pes_id', 'pes_id');
     }
     
 

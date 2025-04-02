@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pessoa', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('pes_id')->unique();
+        Schema::create('pessoa', function (Blueprint $table) {            
+            $table->id('pes_id');
             $table->string('pes_nome', 200);
             $table->date('pes_data_nascimento');
             $table->string('pes_sexo', 9);

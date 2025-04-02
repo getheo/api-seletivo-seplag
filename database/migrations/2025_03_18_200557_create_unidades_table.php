@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unidade', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('unid_id')->unique();
+        Schema::create('unidade', function (Blueprint $table) {            
+            $table->id('unid_id');
             $table->string('unid_nome', 200);
             $table->string('unid_sigla', 20);
             $table->timestamps();

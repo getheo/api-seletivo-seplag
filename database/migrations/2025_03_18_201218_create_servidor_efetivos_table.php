@@ -11,8 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('servidor_efetivo', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('servidor_efetivo', function (Blueprint $table) {            
             $table->foreignId('pes_id')->constrained('pessoa', 'pes_id');
             $table->string('se_matricula', 20);
             $table->timestamps();

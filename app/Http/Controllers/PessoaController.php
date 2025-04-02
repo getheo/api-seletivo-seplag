@@ -32,7 +32,7 @@ class PessoaController extends Controller
     */
     public function index()
     {
-        $pessoa = Pessoa::with('pessoaEndereco')->paginate(10);      
+        $pessoa = Pessoa::with(['pessoaEndereco', 'pessoaFoto'])->paginate(10);
         return response()->json($pessoa);
     }
     

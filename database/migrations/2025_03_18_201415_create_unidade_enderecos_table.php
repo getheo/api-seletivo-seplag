@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unidade_endereco', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('unidade_endereco', function (Blueprint $table) {          
+            $table->id();
             $table->foreignId('unid_id')->constrained('unidade', 'unid_id');
             $table->foreignId('end_id')->constrained('endereco', 'end_id');
             $table->timestamps();

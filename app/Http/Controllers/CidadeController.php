@@ -32,11 +32,10 @@ class CidadeController extends Controller
     public function index()
     {
         $cidade = Cidade::paginate(10);
-        if(!$cidade)
-        {
-            return response('Não encontrado', 404)->json();
+        if (!$cidade) {            
+            return response()->json(['message' => 'Cidades não encontradas', 404]);
         }
-        return response()->json(['message' => 'Cidades encontradas', 'cidade' => $cidade]);
+        return response()->json(['message' => 'Cidades encontradas','cidade' => $cidade]);
     }
     
     public function create()
@@ -50,12 +49,6 @@ class CidadeController extends Controller
     *      summary="Cadastra uma nova Cidade",
     *      description="Registro de uma nova Cidade",
     *      tags={"Cidades"},
-    *      @OA\Parameter(
-    *         name="cid_id",
-    *         in="query",
-    *         description="Nº de identifição da Cidade",
-    *         required=true,
-    *      ),
     *     @OA\Parameter(
     *         name="cid_nome",
     *         in="query",
@@ -84,14 +77,12 @@ class CidadeController extends Controller
     */
     public function store(Request $request)
     {
-        $validadeData = $request->validate([
-            'cid_id' => 'required|integer',
+        $validadeData = $request->validate([            
             'cid_nome' => 'required|string',
             'cid_uf' => 'required|string',
         ]);
 
         $cidade = Cidade::create([            
-            'cid_id' => $validadeData['cid_id'],
             'cid_nome' => $validadeData['cid_nome'],
             'cid_uf' => $validadeData['cid_uf'],
         ]);
@@ -126,12 +117,11 @@ class CidadeController extends Controller
     *      security={{"bearerAuth":{}}}
     *  )
     */
-    public function show(string $cid_id)
+    public function show(int $cid_id)
     {
-        $cidade = Cidade::where('pes_id', $cid_id)->first();        
+        $cidade = Cidade::where('cid_id', $cid_id)->first();        
 
-        if (!$cidade) {
-            //return response('Não encontrado', 404)->json();
+        if (!$cidade) {            
             return response()->json(['message' => 'Cidade não encontrada', 404]);
         }
         return response()->json(['message' => 'Cidade encontrada','cidade' => $cidade]);
@@ -211,10 +201,17 @@ class CidadeController extends Controller
     *      security={{"bearerAuth":{}}}
     *  )
     */
-    public function destroy(Cidade $cidade)
+    public function destroy(int $cid_id)
     {
+        $cidade = Cidade::where('cid_id', $cid_id)->first();        
+
+        if (!$cidade) {            
+            return response()->json(['message' => 'Cidade não encontrada', 404]);
+        }        
         $cidade->delete();
-        return response()->json(null, 204);
+        //return response()->json(null, 204);
+        return response()->json(['message' => 'Cidade Excluída','cidade' => $cidade]);
+
     }
 }
 

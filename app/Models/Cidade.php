@@ -12,8 +12,12 @@ class Cidade extends Model
     // Nome da tabela associada à model (opcional)
     protected $table = 'cidade';
 
+    // Ajustar o primary key
+    protected $primaryKey = 'cid_id';
+    protected $autoIncrement = true;
+
     // Colunas que podem ser preenchidas em massa (opcional)
-    protected $fillable = ['cid_id', 'cid_nome', 'cid_uf'];
+    protected $fillable = ['cid_nome', 'cid_uf'];
 
     public function endereco()
     {

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CidadeController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FotoPessoaController;
 use App\Http\Controllers\LotacaoController;
@@ -25,6 +26,16 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     //Route::apiResource('pessoas', PessoaController::class);
 
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/refresh', [AuthController::class, 'refresh']);
+
+    /* Rotas para as Cidades */
+    Route::get('cidade', [CidadeController::class, 'index']);
+    Route::post('cidade', [CidadeController::class, 'store']);
+    Route::get('cidade/{cidade}', [CidadeController::class, 'show']);
+    Route::put('cidade/{cidade}', [CidadeController::class, 'update']);
+    Route::delete('cidade/{cidade}', [CidadeController::class, 'destroy']);
+
     /* Rotas para as Pessoas */
     Route::get('pessoa', [PessoaController::class, 'index']);
     Route::post('pessoa', [PessoaController::class, 'store']);
@@ -43,6 +54,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('lotacao', [LotacaoController::class, 'index']);
     Route::post('lotacao', [LotacaoController::class, 'store']);
     Route::get('lotacao/{lotacao}', [LotacaoController::class, 'show']);
+    Route::get('lotacao/unidade/{unidade}', [LotacaoController::class, 'showUnidade']);
     Route::put('lotacao/{lotacao}', [LotacaoController::class, 'update']);
     Route::delete('lotacao/{lotacao}', [LotacaoController::class, 'destroy']);
 

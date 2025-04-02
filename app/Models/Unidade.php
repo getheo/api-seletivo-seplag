@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Unidade extends Model
@@ -13,12 +14,28 @@ class Unidade extends Model
     // Nome da tabela associada à model (opcional)
     protected $table = 'unidade';
 
-    // Colunas que podem ser preenchidas em massa (opcional)
-    protected $fillable = ['unid_id', 'unid_nome', 'unid_sigla'];
+    // Ajustar o primary key
+    protected $primaryKey = 'unid_id';
+    protected $autoIncrement = true;    
 
-    public function unidadeEndereco(): HasOne
+    // Colunas que podem ser preenchidas em massa (opcional)
+    protected $fillable = ['unid_nome', 'unid_sigla'];
+
+    
+    // Relacionamento com endereço     
+    public function endereco(): BelongsToMany
     {
-        return $this->HasOne(UnidadeEndereco::class, 'unid_id')->with('endereco');
+        return $this->belongsToMany(
+            Endereco::class,
+            'unidade_endereco',
+            'unid_id',
+            'end_id'
+        );
+    }   
+
+    public function lotacao(): HasOne
+    {
+        return $this->HasOne(Lotacao::class, 'unid_id')->with('pessoa');
     }
 
 }

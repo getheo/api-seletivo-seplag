@@ -20,6 +20,9 @@ class AuthController extends Controller
     *         description="Informe o email",
     *         required=true,
     *         example="teste@seplag.mt.gov.br",
+    *         @OA\MediaType(
+    *            mediaType="application/json",
+    *         ),
     *         @OA\Schema(type="string")
     *     ),
     *     @OA\Parameter(
@@ -28,6 +31,9 @@ class AuthController extends Controller
     *         description="Informe a senha",
     *         required=true,
     *         example="seplag2025",
+    *         @OA\MediaType(
+    *            mediaType="application/json",
+    *         ),
     *         @OA\Schema(type="string")
     *     ),
     *     @OA\Response(response="200", description="Successo no Login"),
@@ -81,6 +87,9 @@ class AuthController extends Controller
     *         description="Informe um email",
     *         required=true,
     *         example="teste@seplag.mt.gov.br",
+    *         @OA\MediaType(
+    *            mediaType="application/json",
+    *         ),
     *         @OA\Schema(type="string")
     *     ),
     *     @OA\Parameter(
@@ -89,6 +98,9 @@ class AuthController extends Controller
     *         description="Insira a senha",
     *         required=true,
     *         example="seplag2025",
+    *         @OA\MediaType(
+    *            mediaType="application/json",
+    *         ),
     *         @OA\Schema(type="string")
     *     ),
     *     @OA\Response(response="200", description="Successo no Login"),
@@ -98,11 +110,28 @@ class AuthController extends Controller
     */
     public function refresh(Request $request)
     {
+        /*
         $user = $request->user();
-        $user->tokens()->delete(); // Revoga tokens antigos
-
+        $request->user()->tokens()->delete(); // Revoga tokens antigos
+        //$user->tokens()->delete();
         $newToken = $user->createToken('auth-token', ['*'], now()->addMinutes(5))->plainTextToken;
+        return response()->json(['token' => $newToken]);        
+        */        
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-        return response()->json(['token' => $newToken]);
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['error' => 'Credenciais inválidas'], 401);
+        }
+
+        // Cria token válido por 5 minutos
+        $token = $user->createToken('auth-token', ['*'], now()->addMinutes(5))->plainTextToken;
+
+        return response()->json(['token_novo' => $token]);
+        
     }
 }

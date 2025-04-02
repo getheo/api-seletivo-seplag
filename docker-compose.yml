@@ -5,7 +5,7 @@ services:
     build: .
     image: api-seletivo-seplag:1.0.0
     container_name: api-seletivo-seplag
-    restart: always
+    restart: unless-stopped
     working_dir: /var/www/html
     volumes:
       - .:/var/www/html
@@ -27,11 +27,26 @@ services:
       - AWS_DEFAULT_REGION=us-east-1
       - AWS_BUCKET=mybucket
       - AWS_ENDPOINT=http://minio:9000
+      - MINIO_ENDPOINT=${MINIO_ENDPOINT}
+      - MINIO_PORT=${MINIO_PORT}
+      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
+      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
+      - MINIO_BUCKET_NAME=${MINIO_BUCKET_NAME}
+    command: >
+      sh -c "chmod -R 777 storage bootstrap/cache &&
+            chown -R www-data:www-data storage bootstrap/cache &&
+            sleep 10 &&
+            php artisan key:generate &&
+            php artisan migrate --seed --force &&
+            php artisan l5-swagger:generate &&
+            php artisan serve --host=0.0.0.0 --port=8000"
+    networks:
+      - laravel_network
 
   db:
     image: postgres:15
     container_name: db
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
@@ -40,6 +55,8 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - laravel_network
   
   minio:
     image: minio/minio
@@ -47,13 +64,18 @@ services:
     restart: always
     environment:
       MINIO_ROOT_USER: minio
-      MINIO_ROOT_PASSWORD: miniostorage
+      MINIO_ROOT_PASSWORD: miniostorage      
     ports:
       - "9000:9000"
       - "9090:9090"
     command: server --console-address ":9090" /data
     volumes:
       - minio-data:/data
+    networks:
+      - laravel_network  
+
+networks:
+  laravel_network:
 
 volumes:
   pgdata:

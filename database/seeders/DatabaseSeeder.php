@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
             CidadeSeeder::class,
             EnderecoSeeder::class,
             PessoaSeeder::class,
-
             PessoaEnderecoSeeder::class,
             
             ServidorEfetivoSeeder::class,
@@ -25,6 +24,8 @@ class DatabaseSeeder extends Seeder
             UnidadeEnderecoSeeder::class,
 
             UserSeeder::class,
+            LotacaoSeeder::class,
+            
         ]);
 
         // \App\Models\User::factory(10)->create();
