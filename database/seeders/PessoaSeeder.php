@@ -13,6 +13,7 @@ class PessoaSeeder extends Seeder
      */
     public function run(): void
     {
+        // Pessoas
         if (!Pessoa::where('pes_nome', 'Nome da 1ª pessoa')->first()) {
             Pessoa::create([                
                 'pes_nome' => 'Nome da 1ª pessoa',

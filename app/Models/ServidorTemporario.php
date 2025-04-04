@@ -18,7 +18,6 @@ class ServidorTemporario extends Model
 
     // Colunas que podem ser preenchidas em massa (opcional)
     protected $fillable = ['pes_id', 'st_data_admissao', 'st_data_demissao'];
-
     
     // Relacionamento Pessoa
     public function pessoa(): BelongsTo

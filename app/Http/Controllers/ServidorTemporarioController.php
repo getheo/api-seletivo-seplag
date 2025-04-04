@@ -12,7 +12,7 @@ class ServidorTemporarioController extends Controller
     *  @OA\GET(
     *      path="/api/servidor-temporario",
     *      summary="Servidores Temporários",
-    *      description="Lista todos os Servidores Temporários ligados a sua Unidade-Lotação",
+    *      description="Lista todos os Servidores Temporários com sua Unidade Lotação",
     *      tags={"Servidores Temporários"},
     *      @OA\Response(
     *          response=200,

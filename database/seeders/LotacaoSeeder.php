@@ -13,6 +13,7 @@ class LotacaoSeeder extends Seeder
      */
     public function run(): void
     {
+        // lotações
         if (!Lotacao::where(['pes_id' => 1, 'unid_id' => 1])->first()) {
             Lotacao::create([                
                 'pes_id' => 1,

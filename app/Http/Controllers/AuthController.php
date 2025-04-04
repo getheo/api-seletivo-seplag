@@ -28,7 +28,7 @@ class AuthController extends Controller
     *     @OA\Parameter(
     *         name="password",
     *         in="query",
-    *         description="Informe a senha",
+    *         description="Insira a senha",
     *         required=true,
     *         example="seplag2025",
     *         @OA\MediaType(

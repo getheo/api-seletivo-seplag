@@ -17,6 +17,7 @@ class Lotacao extends Model
     // Ajustar o primary key
     protected $primaryKey = 'lot_id';
     //public $incrementing = true;
+    
 
     // Colunas que podem ser preenchidas em massa (opcional)
     protected $fillable = ['pes_id', 'unid_id', 'lot_data_lotacao', 'lot_data_remocao', 'lot_portaria'];

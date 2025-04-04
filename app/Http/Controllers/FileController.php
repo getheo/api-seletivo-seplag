@@ -11,6 +11,7 @@ class FileController extends Controller
     public function index()
     {
         return File::all();
+        // Arquivos
     }
 
     public function store(Request $request)

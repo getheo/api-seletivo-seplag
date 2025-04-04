@@ -13,6 +13,7 @@ class ServidorEfetivoSeeder extends Seeder
      */
     public function run(): void
     {
+        // Servidores Efetivos
         if (!ServidorEfetivo::where('pes_id', 1)->first()) {
             ServidorEfetivo::create([
                 'pes_id' => 1,

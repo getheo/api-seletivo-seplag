@@ -13,7 +13,7 @@ class EnderecoSeeder extends Seeder
      */
     public function run(): void
     {
-        // Endereço para as Unidades
+        // Endereços para as Unidades
         if (!Endereco::where('end_logradouro', 'Rua C - Complexo Paiaguás')->first()) {
             Endereco::create([                
                 'end_tipo_logradouro' => 'Bloco III',

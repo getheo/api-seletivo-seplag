@@ -13,14 +13,12 @@ use App\Http\Controllers\UnidadeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
+/*
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-
-    /* Rotas para as Pessoas */
-    //Route::apiResource('pessoas', [PessoaController::class, 'index']);    
-
+    return $request->user(); 
+    Route::apiResource('pessoas', [PessoaController::class, 'index']);
 });
+*/
 
 Route::post('/login', [AuthController::class, 'login']);
 

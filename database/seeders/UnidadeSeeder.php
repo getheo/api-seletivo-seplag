@@ -13,6 +13,7 @@ class UnidadeSeeder extends Seeder
      */
     public function run(): void
     {
+        // Unidade
         if (!Unidade::where('unid_sigla', 'SEPLAG')->first()) {
             Unidade::create([                
                 'unid_nome' => 'Secretaria de Planejamento',

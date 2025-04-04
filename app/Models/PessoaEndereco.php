@@ -14,9 +14,10 @@ class PessoaEndereco extends Model
     // Nome da tabela associada à model (opcional)
     protected $table = 'pessoa_endereco';
 
-    // Ajustar o primary key
+    // Ajustar primary key
     protected $primaryKey = 'pes_id';
     //public $incrementing = true;
+
 
     // Colunas que podem ser preenchidas em massa (opcional)
     protected $fillable = ['pes_id', 'end_id'];

@@ -13,7 +13,7 @@ class EnderecoController extends Controller
     *  @OA\GET(
     *      path="/api/endereco",
     *      summary="Mostra os Endereços cadastrados",
-    *      description="Lista os Endereços",
+    *      description="Lista todas os Endereços",
     *      tags={"Endereços"},
     *     @OA\Parameter(
     *         name="page",

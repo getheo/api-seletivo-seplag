@@ -13,8 +13,10 @@ class FotoPessoaController extends Controller
     
     public function index()
     {
+        // Mostra todas as fotos de cada pessoa
         $fotoPessoa = FotoPessoa::with('pessoa')->paginate(10);      
         return response()->json($fotoPessoa);
+        
     }
     
     public function create()

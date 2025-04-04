@@ -14,7 +14,8 @@ class Cidade extends Model
 
     // Ajustar o primary key
     protected $primaryKey = 'cid_id';
-    //public $incrementing = true;
+    //public $incrementing = true; 
+    
 
     // Colunas que podem ser preenchidas em massa (opcional)
     protected $fillable = ['cid_nome', 'cid_uf'];

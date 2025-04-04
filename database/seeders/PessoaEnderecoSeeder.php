@@ -12,7 +12,8 @@ class PessoaEnderecoSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {        
+    {    
+        // Pessoa Endereço    
         if (!PessoaEndereco::where(['pes_id' => 1, 'end_id' => 4])->first()) {
             PessoaEndereco::create([
                 'pes_id' => 1,

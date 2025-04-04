@@ -11,7 +11,7 @@ class UnidadeController extends Controller
     *  @OA\GET(
     *      path="/api/unidade",
     *      summary="Lista informaçãoes de todas as Unidades",
-    *      description="Exibe todas as Unidades com suas Lotação",
+    *      description="Mostra todas as Unidades com suas Lotação",
     *      tags={"Unidades"},
     *     @OA\Parameter(
     *         name="page",

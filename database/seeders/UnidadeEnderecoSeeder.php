@@ -13,6 +13,7 @@ class UnidadeEnderecoSeeder extends Seeder
      */
     public function run(): void
     {
+        // Unidades Endereços
         if (!UnidadeEndereco::where(['unid_id' => 1, 'end_id' => 1])->first()) {
             UnidadeEndereco::create([
                 'unid_id' => 1,

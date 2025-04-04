@@ -11,7 +11,7 @@ class LotacaoController extends Controller
     *  @OA\GET(
     *      path="/api/lotacao",
     *      summary="Todas as Lotações",
-    *      description="Lista as Lotações",
+    *      description="Lista todas as Lotações",
     *      tags={"Lotações"},
     *     @OA\Parameter(
     *         name="page",

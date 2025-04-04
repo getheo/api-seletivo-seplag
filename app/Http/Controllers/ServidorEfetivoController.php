@@ -12,7 +12,7 @@ class ServidorEfetivoController extends Controller
     *  @OA\GET(
     *      path="/api/servidor-efetivo",
     *      summary="Servidores Efetivos",
-    *      description="Lista todos os Servidores Efetivos ligados a sua Unidade-Lotação",
+    *      description="Lista todas os Servidores Efetivos com sua Unidade Lotação",
     *      tags={"Servidores Efetivos"},
     *      @OA\Response(
     *          response=200,

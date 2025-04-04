@@ -18,7 +18,6 @@ class ServidorEfetivo extends Model
 
     // Colunas que podem ser preenchidas em massa (opcional)
     protected $fillable = ['pes_id', 'se_matricula'];
-
     
     // Relacionamento Pessoa
     public function pessoa(): BelongsTo

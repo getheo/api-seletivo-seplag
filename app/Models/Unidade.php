@@ -20,7 +20,6 @@ class Unidade extends Model
 
     // Colunas que podem ser preenchidas em massa (opcional)
     protected $fillable = ['unid_nome', 'unid_sigla'];
-
     
     // Relacionamento com endereço     
     public function endereco(): BelongsToMany

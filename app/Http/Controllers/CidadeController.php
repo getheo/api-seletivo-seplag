@@ -11,7 +11,7 @@ class CidadeController extends Controller
     *  @OA\GET(
     *      path="/api/cidade",
     *      summary="Mostra as Cidades cadastradas",
-    *      description="Lista as Cidades",
+    *      description="Lista todas as Cidades",
     *      tags={"Cidades"},
     *     @OA\Parameter(
     *         name="page",

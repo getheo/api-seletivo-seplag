@@ -13,6 +13,7 @@ class ServidorTemporarioSeeder extends Seeder
      */
     public function run(): void
     {
+        // Servidores Temporários
         if (!ServidorTemporario::where('pes_id', 4)->first()) {
             ServidorTemporario::create([
                 'pes_id' => 4,

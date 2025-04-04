@@ -14,6 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        // User
         if (!User::where('id', 1)->first()) {
             User::create([                
                 'name' => "Seplag",

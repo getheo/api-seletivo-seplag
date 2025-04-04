@@ -17,6 +17,7 @@ class Pessoa extends Model
     // Ajustar o primary key
     protected $primaryKey = 'pes_id';
     //public $incrementing = true;
+    
 
     // Colunas que podem ser preenchidas em massa (opcional)
     protected $fillable = ['pes_id', 'pes_nome', 'pes_data_nascimento', 'pes_sexo', 'pes_mae', 'pes_pai'];

@@ -12,7 +12,7 @@ class PessoaController extends Controller
     *  @OA\GET(
     *      path="/api/pessoa",
     *      summary="Todas as Pessoas",
-    *      description="Lista as Pessoas com seu endereço",
+    *      description="Lista todas as Pessoas com seu endereço",
     *      tags={"Pessoas"},
     *     @OA\Parameter(
     *         name="page",

@@ -72,7 +72,7 @@ services:
     volumes:
       - minio-data:/data
     networks:
-      - laravel_network  
+      - laravel_network
 
 networks:
   laravel_network:
