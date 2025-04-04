@@ -27,16 +27,14 @@ class FotoPessoaController extends Controller
     
     public function store(Request $request)
     {
-        $validadeData = $request->validate([
-            'fp_id' => 'required|integer',
+        $validadeData = $request->validate([            
             'pes_id' => 'required|integer',
             'fp_data' => 'required|string',
             'fp_bucket' => 'required|string',
             'fp_hash' => 'required|string',
         ]);
 
-        $fotoPessoa = FotoPessoa::create([            
-            'fp_id' => $validadeData['fp_id'],
+        $fotoPessoa = FotoPessoa::create([                        
             'pes_id' => $validadeData['pes_id'],
             'fp_data' => $validadeData['fp_data'],
             'fp_bucket' => $validadeData['fp_bucket'],

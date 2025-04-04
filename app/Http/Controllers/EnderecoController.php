@@ -41,6 +41,44 @@ class EnderecoController extends Controller
         return response()->json(['message' => 'Endereços encontrados', 'endereco' => $endereco]);
     }
     
+       
+    /**
+    *  @OA\GET(
+    *      path="/api/endereco/{end_id}",
+    *      summary="Mostra um Endereco",
+    *      description="Pesquisa Endereço através do (end_id)",
+    *      tags={"Endereços"},
+    *     @OA\Parameter(
+     *         name="end_id",
+     *         in="path",
+     *         required=true,
+     *         description="Nº de identificação do Endereço",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Endereço Encontrado",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Endereço não encontrado"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */
+    public function show(string $end_id)
+    {
+        $endereco = Endereco::where('end_id', $end_id)->with('cidade')->first();        
+
+        if (!$endereco) {            
+            return response()->json(['message' => 'Endereço não encontrado', 404]);
+        }
+        return response()->json(['message' => 'Endereço encontrado','endereco' => $endereco]);
+    }
+
     public function create()
     {
         //
@@ -126,44 +164,6 @@ class EnderecoController extends Controller
 
 
     }
-    
-    /**
-    *  @OA\GET(
-    *      path="/api/endereco/{end_id}",
-    *      summary="Mostra um Endereco",
-    *      description="Pesquisa Endereço através do (end_id)",
-    *      tags={"Endereços"},
-    *     @OA\Parameter(
-     *         name="end_id",
-     *         in="path",
-     *         required=true,
-     *         description="Nº de identificação do Endereço",
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Endereço Encontrado",
-    *          @OA\MediaType(
-    *              mediaType="application/json",
-    *          )
-    *      ),
-    *      @OA\Response(
-    *          response=404,
-    *          description="Endereço não encontrado"
-    *      ),
-    *      security={{"bearerAuth":{}}}
-    *  )
-    */
-    public function show(string $end_id)
-    {
-        $endereco = Endereco::where('end_id', $end_id)->with('cidade')->first();        
-
-        if (!$endereco) {            
-            return response()->json(['message' => 'Endereço não encontrado', 404]);
-        }
-        return response()->json(['message' => 'Endereço encontrado','endereco' => $endereco]);
-    }
-
 
     /**
     *  @OA\PUT(

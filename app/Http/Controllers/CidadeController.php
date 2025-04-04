@@ -38,6 +38,44 @@ class CidadeController extends Controller
         return response()->json(['message' => 'Cidades encontradas','cidade' => $cidade]);
     }
     
+        
+    /**
+    *  @OA\GET(
+    *      path="/api/cidade/{cid_id}",
+    *      summary="Mostra uma Cidade",
+    *      description="Pesquisa por uma cidade através do (cid_id)",
+    *      tags={"Cidades"},
+    *     @OA\Parameter(
+     *         name="cid_id",
+     *         in="path",
+     *         required=true,
+     *         description="Nº de identificação da cidade",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Cidade Encontrada",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Cidade não encontrada"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */
+    public function show(int $cid_id)
+    {
+        $cidade = Cidade::where('cid_id', $cid_id)->first();        
+
+        if (!$cidade) {            
+            return response()->json(['message' => 'Cidade não encontrada', 404]);
+        }
+        return response()->json(['message' => 'Cidade encontrada','cidade' => $cidade]);
+    }
+
     public function create()
     {
         //
@@ -95,43 +133,6 @@ class CidadeController extends Controller
             return response()->json($cidade, 201);
         }
         return response()->json(['message' => 'Cidade já cadastrada', 404]);
-    }
-    
-    /**
-    *  @OA\GET(
-    *      path="/api/cidade/{cid_id}",
-    *      summary="Mostra uma Cidade",
-    *      description="Pesquisa por uma cidade através do (cid_id)",
-    *      tags={"Cidades"},
-    *     @OA\Parameter(
-     *         name="cid_id",
-     *         in="path",
-     *         required=true,
-     *         description="Nº de identificação da cidade",
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Cidade Encontrada",
-    *          @OA\MediaType(
-    *              mediaType="application/json",
-    *          )
-    *      ),
-    *      @OA\Response(
-    *          response=404,
-    *          description="Cidade não encontrada"
-    *      ),
-    *      security={{"bearerAuth":{}}}
-    *  )
-    */
-    public function show(int $cid_id)
-    {
-        $cidade = Cidade::where('cid_id', $cid_id)->first();        
-
-        if (!$cidade) {            
-            return response()->json(['message' => 'Cidade não encontrada', 404]);
-        }
-        return response()->json(['message' => 'Cidade encontrada','cidade' => $cidade]);
     }
     
     

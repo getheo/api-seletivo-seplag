@@ -36,6 +36,45 @@ class PessoaController extends Controller
         return response()->json($pessoa);
     }
     
+        
+    /**
+    *  @OA\GET(
+    *      path="/api/pessoa/{pes_id}",
+    *      summary="Mostra uma Pessoa",
+    *      description="Pesquisa por uma pessoa através do (pes_id)",
+    *      tags={"Pessoas"},
+    *     @OA\Parameter(
+     *         name="pes_id",
+     *         in="path",
+     *         required=true,
+     *         description="Nº de identificação da pessoa",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Pessoa Encontrada",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Pessoa não encontrada"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */
+    public function show(string $pes_id)
+    {
+        $pessoa = Pessoa::where('pes_id', $pes_id)->with(['pessoaEndereco', 'pessoaFoto'])->first();        
+
+        if (!$pessoa) {
+            //return response('Não encontrado', 404)->json();
+            return response()->json(['message' => 'Pessoa não encontrada', 404]);
+        }
+        return response()->json(['message' => 'Pessoa encontrada','pessoa' => $pessoa]);
+    }
+
     public function create()
     {
         //
@@ -117,44 +156,6 @@ class PessoaController extends Controller
         }
 
         return response()->json(['message' => 'Pessoa com esse nome já cadastrada.', 404]);
-    }
-    
-    /**
-    *  @OA\GET(
-    *      path="/api/pessoa/{pes_id}",
-    *      summary="Mostra uma Pessoa",
-    *      description="Pesquisa por uma pessoa através do (pes_id)",
-    *      tags={"Pessoas"},
-    *     @OA\Parameter(
-     *         name="pes_id",
-     *         in="path",
-     *         required=true,
-     *         description="Nº de identificação da pessoa",
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Pessoa Encontrada",
-    *          @OA\MediaType(
-    *              mediaType="application/json",
-    *          )
-    *      ),
-    *      @OA\Response(
-    *          response=404,
-    *          description="Pessoa não encontrada"
-    *      ),
-    *      security={{"bearerAuth":{}}}
-    *  )
-    */
-    public function show(string $pes_id)
-    {
-        $pessoa = Pessoa::where('pes_id', $pes_id)->with(['pessoaEndereco', 'pessoaFoto'])->first();        
-
-        if (!$pessoa) {
-            //return response('Não encontrado', 404)->json();
-            return response()->json(['message' => 'Pessoa não encontrada', 404]);
-        }
-        return response()->json(['message' => 'Pessoa encontrada','pessoa' => $pessoa]);
     }
 
 

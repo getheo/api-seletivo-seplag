@@ -37,6 +37,44 @@ class UnidadeController extends Controller
     {
         $unidade = Unidade::with(['endereco', 'lotacao'])->paginate(10);        
         return response()->json($unidade);  
+    }    
+
+    /**
+    *  @OA\GET(
+    *      path="/api/unidade/{unid_id}",
+    *      summary="Mostra informações de uma Unidade específica",
+    *      description="Pesquisa por uma Unidade através do (unid_id)",
+    *      tags={"Unidades"},
+    *     @OA\Parameter(
+     *         name="unid_id",
+     *         in="path",
+     *         required=true,
+     *         description="Nº de identificação da Unidae",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Unidade Encontrada",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Unidade não encontrada"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */
+    public function show(int $unid_id)
+    {
+        $unidade = Unidade::where('unid_id', $unid_id)->with(['endereco', 'lotacao'])->first();
+        //return response()->json($unidade);
+
+        if (!$unidade) {            
+            return response()->json(['message' => 'Unidade não encontrada', 404]);
+        }
+        return response()->json(['message' => 'Unidade encontrada','unidade' => $unidade]);
     }
 
     public function create()
@@ -97,44 +135,6 @@ class UnidadeController extends Controller
 
         return response()->json(['message' => 'Unidade já cadastrada', 404]);
         
-    }
-
-    /**
-    *  @OA\GET(
-    *      path="/api/unidade/{unid_id}",
-    *      summary="Mostra informações de uma Unidade específica",
-    *      description="Pesquisa por uma Unidade através do (unid_id)",
-    *      tags={"Unidades"},
-    *     @OA\Parameter(
-     *         name="unid_id",
-     *         in="path",
-     *         required=true,
-     *         description="Nº de identificação da Unidae",
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Unidade Encontrada",
-    *          @OA\MediaType(
-    *              mediaType="application/json",
-    *          )
-    *      ),
-    *      @OA\Response(
-    *          response=404,
-    *          description="Unidade não encontrada"
-    *      ),
-    *      security={{"bearerAuth":{}}}
-    *  )
-    */
-    public function show(int $unid_id)
-    {
-        $unidade = Unidade::where('unid_id', $unid_id)->with(['endereco', 'lotacao'])->first();
-        //return response()->json($unidade);
-
-        if (!$unidade) {            
-            return response()->json(['message' => 'Unidade não encontrada', 404]);
-        }
-        return response()->json(['message' => 'Unidade encontrada','unidade' => $unidade]);
     }
 
     public function edit(Unidade $unidade)

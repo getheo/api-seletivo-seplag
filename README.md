@@ -3,10 +3,10 @@
 
 
 Candidato: Guilherme Théo Coleta Arruda<br>
-Número da inscrição: 8534<br>
 CPF: 916.496.921-53<br>
-Perfil: DESENVOLVEDOR PHP - PLENO
 
+Inscrição: 8066 - Perfil: DESENVOLVEDOR PHP - SÊNIOR
+Inscrição: 8534 - Perfil: DESENVOLVEDOR PHP - PLENO
 
 
 ## Projeto API REST em PHP e framework Laravel com Docker Compose e registros em base de dados postgreSQL.
@@ -28,18 +28,23 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 
 ### 🛠 Pré-requisitos
+- GIT instalado para baixar o projeto
 - Docker Desktop instalado
+- Composer (dependências do PHP Laravel)
+
 
 
 ### Faça o Clone do Projeto
-O projeto encontra-se na branch master, para clonar a branch específica:
+O projeto encontra-se no GIT na branch master, execute o comando para para baixar:
 ```bash
-git clone --branch master https://github.com/getheo/api-seletivo-seplag.git
+git clone https://github.com/getheo/api-seletivo-seplag.git
 ```
-
 ---
-### Acesse a raiz do projeto onde realizou o clone do projeto
-Renomeie o arquivo (.env-exemplo) para (.env)
+
+### Na raíz do projeto já está o arquivo de configurações do projeto
+```bash
+.env
+```
 ---
 
 
@@ -107,18 +112,23 @@ Execute o comando abaixo para instanciar o servidor web no container (api-seleti
 docker exec api-seletivo-seplag php artisan serve
 ```
 ### 🧪 Testando a API
-Para realizar os teste, basta acessar pelo navegador:
+Para verificar a documentação e realizar os teste, basta acessar pelo navegador (Swagger e/ou POSTMAN):
 ```bash
 http://localhost:8000/api/documentation
 ```
 
-### Pelo Swagger, 1º é necessário realizar o login na Autenticação. (pré-cadastrado)
+### No Swagger, 1º é necessário realizar o login na Autenticação. (pré-cadastrado)
+```bash
+http://localhost:8000/api/login
+```
 - 📧 **Email:** `teste@seplag.mt.gov.br`
 - 🔑 **Senha:** `seplag2025`
+
 
 - Execute e será gerado o TOKEN. Copie e cole na variável "authorize" (canto superior direito).
 - Após esta ação é possível realizar os testes. Tempo do token expira em 5 minutos.
 - Para renovar o token, utilize o serviço /api/refresh. Copie e cole o novo token na opção Authorize.
+
 
 
 ### Para verificar os arquivos publicados no MinIO, acesse:
@@ -126,19 +136,24 @@ http://localhost:8000/api/documentation
 http://localhost:9090/login
 ```
 
-Username: minio
-Senha: miniostorage
+- 📧 **Username:** `minio`
+- 🔑 **Senha:** `miniostorage`
 
 
-### Caso precise excluir tudo para refazer o processo, execute os comandos (prune = informações de cache:):
+
+### Caso precise excluir tudo para refazer o processo:
 ```bash
 docker compose down
 ```
-```bash
-docker container prune -f
-```
+
+### Exclui informações de cache:
 ```bash
 docker system prune
+```
+
+### Confirme exclusão de cache de container:
+```bash
+docker container prune -f
 ```
 
 
@@ -158,8 +173,7 @@ Abaixo estão os principais endpoints da API.
 
 | Método  | Endpoint      | Descrição                        |                       Parâmetros / Corpo                         |
 |---------|---------------|----------------------------------|------------------------------------------------------------------|
-| `GET`   | `/api/login`  | Autenticação do usuário          | `{"email": "teste@seplag.mt.gov.br", "password": "seplag2025" }` |
-| `GET`   | `/api/logout` | Deslogar da API                  |                                                                  |
+| `POST`  | `/api/login`  | Autenticação do usuário          | `{"email": "teste@seplag.mt.gov.br", "password": "seplag2025" }` |
 | `POST`  | `/api/refresh`| Renovar o Token de Acesso        | `{"email": "teste@seplag.mt.gov.br", "password": "seplag2025" }` |
 
 

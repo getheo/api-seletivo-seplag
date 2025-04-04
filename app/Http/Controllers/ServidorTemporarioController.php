@@ -34,7 +34,45 @@ class ServidorTemporarioController extends Controller
         return response()->json($servidorTemporario);
     }
 
-    
+    /**
+    *  @OA\GET(
+    *      path="/api/servidor-temporario/{pes_id}",
+    *      summary="Mostra um Servidor Temporário",
+    *      description="Pesquisa um Servidor Temporário através da Pessoa (pes_id)",
+    *      tags={"Servidores Temporários"},
+    *     @OA\Parameter(
+     *         name="pes_id",
+     *         in="path",
+     *         required=true,
+     *         description="Nº de identificação da Pessoa",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Pessoa Encontrada",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Pessoa não encontrada"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */
+    public function show(int $pes_id)
+    {
+        $servidorTemporario = ServidorTemporario::where('pes_id', $pes_id)->with(['pessoa', 'lotacao'])->first();
+        //return response()->json($unidade);
+
+        if (!$servidorTemporario) {            
+            return response()->json(['message' => 'Servidor Temporário não encontrado', 404]);
+        }
+        return response()->json(['message' => 'Servidor Temporário encontrado.','servidor-efetivo' => $servidorTemporario]);
+        
+    }
+
     public function create()
     {
         //
@@ -106,45 +144,6 @@ class ServidorTemporarioController extends Controller
         } else {
             return response()->json("Pessoa não encontrada.", 204);
         }
-    }
-
-    /**
-    *  @OA\GET(
-    *      path="/api/servidor-temporario/{pes_id}",
-    *      summary="Mostra um Servidor Temporário",
-    *      description="Pesquisa um Servidor Temporário através da Pessoa (pes_id)",
-    *      tags={"Servidores Temporários"},
-    *     @OA\Parameter(
-     *         name="pes_id",
-     *         in="path",
-     *         required=true,
-     *         description="Nº de identificação da Pessoa",
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Pessoa Encontrada",
-    *          @OA\MediaType(
-    *              mediaType="application/json",
-    *          )
-    *      ),
-    *      @OA\Response(
-    *          response=404,
-    *          description="Pessoa não encontrada"
-    *      ),
-    *      security={{"bearerAuth":{}}}
-    *  )
-    */
-    public function show(int $pes_id)
-    {
-        $servidorTemporario = ServidorTemporario::where('pes_id', $pes_id)->with(['pessoa', 'lotacao'])->first();
-        //return response()->json($unidade);
-
-        if (!$servidorTemporario) {            
-            return response()->json(['message' => 'Servidor Temporário não encontrado', 404]);
-        }
-        return response()->json(['message' => 'Servidor Temporário encontrado.','servidor-efetivo' => $servidorTemporario]);
-        
     }
 
     

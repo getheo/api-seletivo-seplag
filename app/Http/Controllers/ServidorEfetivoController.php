@@ -34,6 +34,46 @@ class ServidorEfetivoController extends Controller
         return response()->json($servidorEfetivo, 200);        
     }
     
+    
+    /**
+    *  @OA\GET(
+    *      path="/api/servidor-efetivo/{pes_id}",
+    *      summary="Mostra um Servidor Efetivo",
+    *      description="Pesquisa um Servidor Efetivo através da Pessoa (pes_id)",
+    *      tags={"Servidores Efetivos"},
+    *     @OA\Parameter(
+     *         name="pes_id",
+     *         in="path",
+     *         required=true,
+     *         description="Nº de identificação da Pessoa",
+     *         @OA\Schema(type="integer", example=1)
+     *     ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Pessoa Encontrada",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Pessoa não encontrada"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */
+    public function show(int $pes_id)
+    {
+        $servidorEfetivo = ServidorEfetivo::where('pes_id', $pes_id)->with(['pessoa', 'lotacaoAtiva'])->first();
+        //return response()->json($unidade);
+
+        if (!$servidorEfetivo) {            
+            return response()->json(['message' => 'Servidor Efetivo não encontrado', 404]);
+        }
+        return response()->json(['message' => 'Servidor Efetivo encontrado.','servidor-efetivo' => $servidorEfetivo]);
+        
+    }
+
     public function create()
     {
         //
@@ -108,45 +148,6 @@ class ServidorEfetivoController extends Controller
 
         return response()->json($servidorEfetivo, 201);
         */
-    }
-
-    /**
-    *  @OA\GET(
-    *      path="/api/servidor-efetivo/{pes_id}",
-    *      summary="Mostra um Servidor Efetivo",
-    *      description="Pesquisa um Servidor Efetivo através da Pessoa (pes_id)",
-    *      tags={"Servidores Efetivos"},
-    *     @OA\Parameter(
-     *         name="pes_id",
-     *         in="path",
-     *         required=true,
-     *         description="Nº de identificação da Pessoa",
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Pessoa Encontrada",
-    *          @OA\MediaType(
-    *              mediaType="application/json",
-    *          )
-    *      ),
-    *      @OA\Response(
-    *          response=404,
-    *          description="Pessoa não encontrada"
-    *      ),
-    *      security={{"bearerAuth":{}}}
-    *  )
-    */
-    public function show(int $pes_id)
-    {
-        $servidorEfetivo = ServidorEfetivo::where('pes_id', $pes_id)->with(['pessoa', 'lotacaoAtiva'])->first();
-        //return response()->json($unidade);
-
-        if (!$servidorEfetivo) {            
-            return response()->json(['message' => 'Servidor Efetivo não encontrado', 404]);
-        }
-        return response()->json(['message' => 'Servidor Efetivo encontrado.','servidor-efetivo' => $servidorEfetivo]);
-        
     }
 
     
