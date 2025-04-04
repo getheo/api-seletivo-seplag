@@ -13,10 +13,9 @@ class PessoaSeeder extends Seeder
      */
     public function run(): void
     {
-        if (!Pessoa::where('pes_id', 1)->first()) {
+        if (!Pessoa::where('pes_nome', 'Nome da 1ª pessoa')->first()) {
             Pessoa::create([                
-                'pes_id' => 1,
-                'pes_nome' => 'Nome da primeira pessoa',
+                'pes_nome' => 'Nome da 1ª pessoa',
                 'pes_data_nascimento' => '2001-10-10',
                 'pes_sexo' => 'M',
                 'pes_mae' => 'Nome da Mãe 1 pessoa',
@@ -24,10 +23,9 @@ class PessoaSeeder extends Seeder
             ]);
         }
 
-        if (!Pessoa::where('pes_id', 2)->first()) {
+        if (!Pessoa::where('pes_nome', 'Nome da 2ª pessoa')->first()) {
             Pessoa::create([                
-                'pes_id' => 2,
-                'pes_nome' => 'Nome da segunda pessoa',
+                'pes_nome' => 'Nome da 2ª pessoa',
                 'pes_data_nascimento' => '1994-03-21',
                 'pes_sexo' => 'F',
                 'pes_mae' => 'Nome da Mãe 2 pessoa',
@@ -35,10 +33,9 @@ class PessoaSeeder extends Seeder
             ]);
         }
 
-        if (!Pessoa::where('pes_id', 3)->first()) {
-            Pessoa::create([                
-                'pes_id' => 3,
-                'pes_nome' => 'Nome da terceira pessoa',
+        if (!Pessoa::where('pes_nome', 'Nome da 3ª pessoa')->first()) {
+            Pessoa::create([                                
+                'pes_nome' => 'Nome da 3ª pessoa',
                 'pes_data_nascimento' => '1997-08-07',
                 'pes_sexo' => 'M',
                 'pes_mae' => 'Nome da Mãe 3 pessoa',
@@ -46,10 +43,9 @@ class PessoaSeeder extends Seeder
             ]);
         }
 
-        if (!Pessoa::where('pes_id', 4)->first()) {
-            Pessoa::create([                
-                'pes_id' => 4,
-                'pes_nome' => 'Nome da quarta pessoa',
+        if (!Pessoa::where('pes_nome', 'Nome da 4ª pessoa')->first()) {
+            Pessoa::create([                                
+                'pes_nome' => 'Nome da 4ª pessoa',
                 'pes_data_nascimento' => '2016-10-30',
                 'pes_sexo' => 'M',
                 'pes_mae' => 'Nome da Mãe 4 pessoa',
@@ -57,10 +53,9 @@ class PessoaSeeder extends Seeder
             ]);
         }
 
-        if (!Pessoa::where('pes_id', 5)->first()) {
-            Pessoa::create([                
-                'pes_id' => 5,
-                'pes_nome' => 'Nome da quinta pessoa',
+        if (!Pessoa::where('pes_nome', 'Nome da 5ª pessoa')->first()) {
+            Pessoa::create([                                
+                'pes_nome' => 'Nome da 5ª pessoa',
                 'pes_data_nascimento' => '2015-12-12',
                 'pes_sexo' => 'F',
                 'pes_mae' => 'Nome da Mãe 5 pessoa',

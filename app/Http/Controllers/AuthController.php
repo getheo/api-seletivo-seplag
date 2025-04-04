@@ -54,22 +54,11 @@ class AuthController extends Controller
         }
 
         // Cria token válido por 5 minutos
-        $token = $user->createToken('auth-token', ['*'], now()->addMinutes(5))->plainTextToken;
+        $token = $user->createToken('auth-token', ['*'], now()->addMinutes(10))->plainTextToken;
 
         return response()->json(['token' => $token]);
     }
-
-    /**
-    * @OA\Post(
-    *     path="/api/logout",
-    *     summary="Logout",
-    *     tags={"Autenticação"},
-    *
-    *     @OA\Response(response="200", description="Deslogou com sucesso"),
-    *     @OA\Response(response="401", description="Erro para deslogar"),
-    *     security={{"bearerAuth":{}}}
-    * )
-    */
+    
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();

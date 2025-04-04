@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lotacao', function (Blueprint $table) {            
-            $table->id('lot_id');
+        Schema::create('lotacao', function (Blueprint $table) {                        
+            $table->bigIncrements('lot_id');
             $table->foreignId('pes_id')->constrained('pessoa', 'pes_id');
             $table->foreignId('unid_id')->constrained('unidade', 'unid_id');
             $table->date('lot_data_lotacao');

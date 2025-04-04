@@ -47,12 +47,6 @@ class PessoaController extends Controller
     *      summary="Cadastra nova Pessoa",
     *      description="Registra uma nova Pessoa",
     *      tags={"Pessoas"},
-    *      @OA\Parameter(
-    *         name="pes_id",
-    *         in="query",
-    *         description="Nº de identifição da Pessoa",
-    *         required=true,
-    *      ),
     *     @OA\Parameter(
     *         name="pes_nome",
     *         in="query",
@@ -99,25 +93,30 @@ class PessoaController extends Controller
     */
     public function store(Request $request)
     {
-        $validadeData = $request->validate([
-            'pes_id' => 'required|integer',
-            'pes_nome' => 'required|string',
-            'pes_data_nascimento' => 'required|string',
-            'pes_sexo' => 'required|string',
-            'pes_mae' => 'required|string',
-            'pes_pai' => 'required|string',
-        ]);
+        $pessoa = Pessoa::where('pes_nome', $request->pes_nome)->first();  
 
-        $pessoa = Pessoa::create([            
-            'pes_id' => $validadeData['pes_id'],
-            'pes_nome' => $validadeData['pes_nome'],
-            'pes_data_nascimento' => $validadeData['pes_data_nascimento'],
-            'pes_sexo' => $validadeData['pes_sexo'],
-            'pes_mae' => $validadeData['pes_mae'],
-            'pes_pai' => $validadeData['pes_pai'],
-        ]);
+        if (!$pessoa) {             
 
-        return response()->json($pessoa, 201);
+            $validadeData = $request->validate([            
+                'pes_nome' => 'required|string',
+                'pes_data_nascimento' => 'required|string',
+                'pes_sexo' => 'required|string',
+                'pes_mae' => 'required|string',
+                'pes_pai' => 'required|string',
+            ]);
+    
+            $pessoa = Pessoa::create([            
+                'pes_nome' => $validadeData['pes_nome'],
+                'pes_data_nascimento' => $validadeData['pes_data_nascimento'],
+                'pes_sexo' => $validadeData['pes_sexo'],
+                'pes_mae' => $validadeData['pes_mae'],
+                'pes_pai' => $validadeData['pes_pai'],
+            ]);
+            
+            return response()->json(['message' => 'Pessoa cadastrada com sucesso.','pessoa' => $pessoa], 200);
+        }
+
+        return response()->json(['message' => 'Pessoa com esse nome já cadastrada.', 404]);
     }
     
     /**
@@ -149,7 +148,7 @@ class PessoaController extends Controller
     */
     public function show(string $pes_id)
     {
-        $pessoa = Pessoa::where('pes_id', $pes_id)->with('pessoaEndereco')->first();        
+        $pessoa = Pessoa::where('pes_id', $pes_id)->with(['pessoaEndereco', 'pessoaFoto'])->first();        
 
         if (!$pessoa) {
             //return response('Não encontrado', 404)->json();

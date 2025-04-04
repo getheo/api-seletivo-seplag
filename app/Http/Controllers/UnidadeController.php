@@ -10,8 +10,8 @@ class UnidadeController extends Controller
     /**
     *  @OA\GET(
     *      path="/api/unidade",
-    *      summary="Unidades",
-    *      description="Lista todas as Unidades e sua Lotação",
+    *      summary="Lista informaçãoes de todas as Unidades",
+    *      description="Exibe todas as Unidades com suas Lotação",
     *      tags={"Unidades"},
     *     @OA\Parameter(
     *         name="page",
@@ -50,18 +50,6 @@ class UnidadeController extends Controller
     *      summary="Cadastra uma nova Unidade",
     *      description="Registro de uma nova Unidade",
     *      tags={"Unidades"},
-    *      @OA\Parameter(
-    *         name="uni_id",
-    *         in="query",
-    *         description="Nº de identifição da Unidade",
-    *         required=true,
-    *      ),
-    *     @OA\Parameter(
-    *         name="unid_id",
-    *         in="query",
-    *         description="Nome da Unidade",
-    *         required=true,
-    *      ),
     *     @OA\Parameter(
     *         name="unid_nome",
     *         in="query",
@@ -90,25 +78,31 @@ class UnidadeController extends Controller
     */
     public function store(Request $request)
     {
-        $validadeData = $request->validate([
-            'unid_id' => 'required|integer',
-            'unid_nome' => 'required|string',
-            'unid_sigla' => 'required|string',
-        ]);
+        $unidade = Unidade::where('unid_nome', $request->unid_nome)->first();  
 
-        $unidade = Unidade::create([            
-            'unid_id' => $validadeData['unid_id'],
-            'unid_nome' => $validadeData['unid_nome'],
-            'unid_sigla' => $validadeData['unid_sigla'],
-        ]);
+        if (!$unidade) {             
 
-        return response()->json($unidade, 201);
+            $validadeData = $request->validate([            
+                'unid_nome' => 'required|string',
+                'unid_sigla' => 'required|string',
+            ]);
+    
+            $unidade = Unidade::create([                        
+                'unid_nome' => $validadeData['unid_nome'],
+                'unid_sigla' => $validadeData['unid_sigla'],
+            ]);    
+            
+            return response()->json(['message' => 'Unidade cadastrada','unidade' => $unidade], 200);
+        }
+
+        return response()->json(['message' => 'Unidade já cadastrada', 404]);
+        
     }
 
     /**
     *  @OA\GET(
     *      path="/api/unidade/{unid_id}",
-    *      summary="Mostra uma Unidade",
+    *      summary="Mostra informações de uma Unidade específica",
     *      description="Pesquisa por uma Unidade através do (unid_id)",
     *      tags={"Unidades"},
     *     @OA\Parameter(
@@ -147,36 +141,47 @@ class UnidadeController extends Controller
     {
         //
     }
-
+    
     /**
-    *  @OA\PUT(
-    *      path="/api/unidade/{unid_id}",
-    *      summary="Atualizar dados de uma Unidade",
-    *      description="Editar os dados de uma Unidade através do (unid_id)",
-    *      tags={"Unidades"},
-    *     @OA\Parameter(
-     *         name="unid_id",
-     *         in="path",
+     * @OA\PUT(
+     *     path="/api/unidade/{unid_id}",
+     *     summary="Atualizar dados de uma Unidade",
+     *     description="Editar os dados de uma Unidade através do (unid_id)",
+     *     tags={"Unidades"},     
+     *     @OA\RequestBody(
      *         required=true,
-     *         description="Nº de identificação da Unidade",
-     *         @OA\Schema(type="integer", example=1)
+     *         @OA\JsonContent(
+     *             required={"unid_id", "unid_nome", "unid_sigla"},
+     *             @OA\Property(property="unid_id", type="integer", example="1"),
+     *             @OA\Property(property="unid_nome", type="string", example="Pirinópolis"),
+     *             @OA\Property(property="unid_sigla", type="string", example="SIGLA")
+     *         )
      *     ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Dados da Unidade atualizado com sucesso.",
-    *          @OA\MediaType(
-    *              mediaType="application/json",
-    *          )
-    *      ),
-    *      @OA\Response(
-    *          response=404,
-    *          description="Erro ao atualizar a Unidade"
-    *      ),
-    *      security={{"bearerAuth":{}}}
-    *  )
-    */ 
-    public function update(Request $request, Unidade $unidade)
+     *     @OA\Response(
+     *         response=200,
+     *         description="Unidade atualizada com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Unidade atualizada com sucesso"),
+     *             @OA\Property(property="unidade", type="object",
+     *                 @OA\Property(property="unid_id", type="integer", example=1),
+     *                 @OA\Property(property="unid_nome", type="string", example="Pirinópolis"),
+     *                 @OA\Property(property="unid_sigla", type="string", example="MT")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=400, description="Requisição inválida"),
+     *     @OA\Response(response=404, description="Unidade não encontrada"),
+     *     security={{"bearerAuth":{}}}
+     * )
+     */
+    public function update(Request $request)
     {
+        $unidade = Unidade::where('unid_id', $request->unid_id)->first();  
+
+        if (!$unidade) {            
+            return response()->json(['message' => 'Unidade não encontrada', 404]);
+        }
+
         $validadeData = $request->validate([
             'unid_id' => 'required|integer',
             'unid_nome' => 'required|string',
@@ -185,7 +190,8 @@ class UnidadeController extends Controller
 
         $unidade->update($validadeData);
 
-        return response()->json($unidade, 200);
+        //return response()->json($unidade, 200);
+        return response()->json(['message' => 'Unidade atualizada','unidade' => $unidade], 200);
     }
 
     /**

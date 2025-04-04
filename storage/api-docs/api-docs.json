@@ -44,28 +44,6 @@
                 }
             }
         },
-        "/api/logout": {
-            "post": {
-                "tags": [
-                    "Autenticação"
-                ],
-                "summary": "Logout",
-                "operationId": "fe8f3429cd6979b3b4517e186505f9f9",
-                "responses": {
-                    "200": {
-                        "description": "Deslogou com sucesso"
-                    },
-                    "401": {
-                        "description": "Erro para deslogar"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
         "/api/refresh": {
             "post": {
                 "tags": [
@@ -216,42 +194,6 @@
                     }
                 ]
             },
-            "put": {
-                "tags": [
-                    "Cidades"
-                ],
-                "summary": "Atualizar dados de uma Cidade",
-                "description": "Editar os dados de uma Cidade através do (cid_id)",
-                "operationId": "128b17383e3e8de4876014f3ace6ca65",
-                "parameters": [
-                    {
-                        "name": "cid_id",
-                        "in": "path",
-                        "description": "Nº de identificação da Cidade",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Dados da Cidade atualizado com sucesso.",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "404": {
-                        "description": "Erro ao atualizar a Cidade"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
             "delete": {
                 "tags": [
                     "Cidades"
@@ -280,6 +222,91 @@
                     },
                     "404": {
                         "description": "Não foi possível excluir a Cidade"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/cidade/{ci_id}": {
+            "put": {
+                "tags": [
+                    "Cidades"
+                ],
+                "summary": "Atualiza Cidade",
+                "description": "Atualiza os dados de uma Cidade",
+                "operationId": "4e4499e98d101b89a9ce935f1a7ada3f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "cid_id",
+                                    "cid_nome",
+                                    "cid_uf"
+                                ],
+                                "properties": {
+                                    "cid_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "cid_nome": {
+                                        "type": "string",
+                                        "example": "Pirinópolis"
+                                    },
+                                    "cid_uf": {
+                                        "type": "string",
+                                        "example": "MT"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cidade atualizada com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Cidade atualizada com sucesso"
+                                        },
+                                        "cidade": {
+                                            "properties": {
+                                                "cid_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "cid_nome": {
+                                                    "type": "string",
+                                                    "example": "Pirinópolis"
+                                                },
+                                                "cid_uf": {
+                                                    "type": "string",
+                                                    "example": "MT"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida"
+                    },
+                    "404": {
+                        "description": "Cidade não encontrado"
                     }
                 },
                 "security": [
@@ -327,12 +354,6 @@
                 "description": "Registro de um novo Endereço",
                 "operationId": "3768fdb817d263ccfb30b72455588fb5",
                 "parameters": [
-                    {
-                        "name": "end_id",
-                        "in": "query",
-                        "description": "Nº de identifição do Endereço",
-                        "required": true
-                    },
                     {
                         "name": "end_tipo_logradouro",
                         "in": "query",
@@ -388,7 +409,7 @@
                     "Endereços"
                 ],
                 "summary": "Mostra um Endereco",
-                "description": "Pesquisa por um Endereço através do (end_id)",
+                "description": "Pesquisa Endereço através do (end_id)",
                 "operationId": "6b6140ac69a6ca0ebccf35442a062420",
                 "parameters": [
                     {
@@ -493,193 +514,61 @@
             }
         },
         "/api/foto-pessoa": {
-            "get": {
-                "tags": [
-                    "Fotos Pessoas"
-                ],
-                "summary": "Mostra as Foto das Pessoas",
-                "description": "Lista as fotos das pessoas",
-                "operationId": "a0f2d231107370d4c09d8b3673df998c",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "Nº da página",
-                        "required": false
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
             "post": {
                 "tags": [
-                    "Fotos Pessoas"
+                    "Foto Upload"
                 ],
-                "summary": "Cadastra uma nova Foto da Pessoa",
-                "description": "Registro de uma nova Foto",
-                "operationId": "96add2c3331ed68c16e515a4d3e69f62",
+                "summary": "Faz o upload de um arquivo",
+                "description": "Upload de Arquivo",
+                "operationId": "9825325300b9d4f17fd427875cbb2ada",
                 "parameters": [
-                    {
-                        "name": "fp_id",
-                        "in": "query",
-                        "description": "Nº de identifição da Foto",
-                        "required": true
-                    },
                     {
                         "name": "pes_id",
                         "in": "query",
                         "description": "Nº de identificação da Pessoa",
                         "required": true
-                    },
-                    {
-                        "name": "fp_data",
-                        "in": "query",
-                        "description": "Data do cadastro da foto",
-                        "required": true
-                    },
-                    {
-                        "name": "fp_bucket",
-                        "in": "query",
-                        "description": "Identificação do Bucket da Foto",
-                        "required": true
-                    },
-                    {
-                        "name": "fp_hash",
-                        "in": "query",
-                        "description": "Código de cadastro da Foto",
-                        "required": true
                     }
                 ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {}
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
-                    },
-                    "404": {
-                        "description": "Foto não encontrada"
                     }
                 },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/foto-pessoa/{fp_id}": {
-            "get": {
-                "tags": [
-                    "Fotos Pessoas"
-                ],
-                "summary": "Mostra uma Foto",
-                "description": "Pesquisa por uma foto através do (fp_id)",
-                "operationId": "82d70413c9f48a5df23813ccd5dbee11",
-                "parameters": [
-                    {
-                        "name": "fp_id",
-                        "in": "path",
-                        "description": "Nº de identificação da foto",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "Foto Encontrada",
+                        "description": "Arquivo enviado com sucesso",
                         "content": {
-                            "application/json": {}
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "file_path": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
                         }
                     },
-                    "404": {
-                        "description": "Foto não encontrada"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "put": {
-                "tags": [
-                    "Fotos Pessoas"
-                ],
-                "summary": "Atualizar dados de uma Foto",
-                "description": "Editar os dados de uma Foto através do (fp_id)",
-                "operationId": "4c1acc7123d4160acf2850c4b9441754",
-                "parameters": [
-                    {
-                        "name": "fp_id",
-                        "in": "path",
-                        "description": "Nº de identificação da Foto",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Dados da Foto atualizado com sucesso.",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "404": {
-                        "description": "Erro ao atualizar a Foto"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Fotos Pessoas"
-                ],
-                "summary": "Exclui uma Foto",
-                "description": "Exclui uma Foto através do (fp_id)",
-                "operationId": "dd9b2f73c0486c29ba54c923eb51a87b",
-                "parameters": [
-                    {
-                        "name": "fp_id",
-                        "in": "path",
-                        "description": "ID da Foto",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Foto excluída com sucesso",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "404": {
-                        "description": "Não foi possível excluir a Foto"
+                    "400": {
+                        "description": "Erro no upload"
                     }
                 },
                 "security": [
@@ -910,12 +799,6 @@
                 "operationId": "71b798d08b5fe881ba6fa9ae9ddaef9a",
                 "parameters": [
                     {
-                        "name": "pes_id",
-                        "in": "query",
-                        "description": "Nº de identifição da Pessoa",
-                        "required": true
-                    },
-                    {
                         "name": "pes_nome",
                         "in": "query",
                         "description": "Nome",
@@ -1104,7 +987,7 @@
                     "Servidores Efetivos"
                 ],
                 "summary": "Cadastra um Novo Servidor Efetivo",
-                "description": "Registro de uma nova Cidade",
+                "description": "Registrar a Pessoa (pes_id) e seua matrícula",
                 "operationId": "92a0d07a67d0101af814c73716c946be",
                 "parameters": [
                     {
@@ -1179,30 +1062,68 @@
                 "tags": [
                     "Servidores Efetivos"
                 ],
-                "summary": "Atualiza a matrícula um Servidor Efetivo",
-                "description": "Edita a matrícula de um Servidor Efetivo (pes_id)",
+                "summary": "Atualizar dados de um Servidor Efetivo",
+                "description": "Editar a matrícula de um Servidor Efetivo",
                 "operationId": "dc1e4185482e3c5538db91f7b5d53e0f",
-                "parameters": [
-                    {
-                        "name": "se_matricula",
-                        "in": "path",
-                        "description": "Nº da Matrícula do Servidor Efetivo",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "pes_id",
+                                    "se_matricula"
+                                ],
+                                "properties": {
+                                    "pes_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "se_matricula": {
+                                        "type": "string",
+                                        "example": "00001"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
-                        "description": "Dados atualizados do Servidor Efetivo.",
+                        "description": "Servidor Efetivo atualizado com sucesso",
                         "content": {
-                            "application/json": {}
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Servidor Efetivo atualizado com sucesso"
+                                        },
+                                        "servidor-efetivo": {
+                                            "properties": {
+                                                "pes_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "se_matricula": {
+                                                    "type": "string",
+                                                    "example": "00001"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
                         }
                     },
+                    "400": {
+                        "description": "Requisição inválida"
+                    },
                     "404": {
-                        "description": "Erro ao atualizar os dados do Servidor Efetivo"
+                        "description": "Não encontrado"
                     }
                 },
                 "security": [
@@ -1277,8 +1198,8 @@
                 "tags": [
                     "Servidores Temporários"
                 ],
-                "summary": "Cadastra um Novo Servidor Temporário",
-                "description": "Registro de um novo Servidor Temporário",
+                "summary": "Realiza o vínculo da Pessoa e Servidor Temporário",
+                "description": "Registro do vínculo do novo Servidor Temporário",
                 "operationId": "5f7362b04b04a9b3ff7725a713c9c23f",
                 "parameters": [
                     {
@@ -1371,40 +1292,77 @@
                 "tags": [
                     "Servidores Temporários"
                 ],
-                "summary": "Atualiza os dados do Servidor Temporário",
-                "description": "Edita os dados do Servidor Temporário através do (pes_id)",
+                "summary": "Atualizar dados de um Servidor Temporário",
+                "description": "Editar os dados de um Servidor Temporário",
                 "operationId": "051ca6fa87feab82b574296de3f0efca",
-                "parameters": [
-                    {
-                        "name": "st_data_admissao",
-                        "in": "path",
-                        "description": "Data de Admissão",
-                        "required": true,
-                        "schema": {
-                            "type": "date",
-                            "example": "2025-01-01"
-                        }
-                    },
-                    {
-                        "name": "st_data_demissao",
-                        "in": "path",
-                        "description": "Data de Demissão",
-                        "required": true,
-                        "schema": {
-                            "type": "date",
-                            "example": "2025-01-01"
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "pes_id",
+                                    "st_data_admissao",
+                                    "st_data_demissao"
+                                ],
+                                "properties": {
+                                    "pes_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "st_data_admissao": {
+                                        "type": "string",
+                                        "example": "2024-05-01"
+                                    },
+                                    "st_data_demissao": {
+                                        "type": "string",
+                                        "example": "2025-12-12"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
-                        "description": "Dados atualizados do Servidor Efetivo.",
+                        "description": "Servidor Temporário atualizado com sucesso",
                         "content": {
-                            "application/json": {}
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Servidor Temporário atualizado com sucesso"
+                                        },
+                                        "servidor-temporario": {
+                                            "properties": {
+                                                "pes_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "st_data_admissao": {
+                                                    "type": "string",
+                                                    "example": "2024-05-01"
+                                                },
+                                                "st_data_demissao": {
+                                                    "type": "string",
+                                                    "example": "2025-12-12"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
                         }
                     },
+                    "400": {
+                        "description": "Requisição inválida"
+                    },
                     "404": {
-                        "description": "Erro ao atualizar os dados do Servidor Efetivo"
+                        "description": "Não encontrado"
                     }
                 },
                 "security": [
@@ -1455,8 +1413,8 @@
                 "tags": [
                     "Unidades"
                 ],
-                "summary": "Unidades",
-                "description": "Lista todas as Unidades e sua Lotação",
+                "summary": "Lista informaçãoes de todas as Unidades",
+                "description": "Exibe todas as Unidades com suas Lotação",
                 "operationId": "2250b14b758c20a6048832f40e52f176",
                 "parameters": [
                     {
@@ -1491,18 +1449,6 @@
                 "description": "Registro de uma nova Unidade",
                 "operationId": "0bbdbda9ace1e68eb6d131c76fe08b79",
                 "parameters": [
-                    {
-                        "name": "uni_id",
-                        "in": "query",
-                        "description": "Nº de identifição da Unidade",
-                        "required": true
-                    },
-                    {
-                        "name": "unid_id",
-                        "in": "query",
-                        "description": "Nome da Unidade",
-                        "required": true
-                    },
                     {
                         "name": "unid_nome",
                         "in": "query",
@@ -1539,7 +1485,7 @@
                 "tags": [
                     "Unidades"
                 ],
-                "summary": "Mostra uma Unidade",
+                "summary": "Mostra informações de uma Unidade específica",
                 "description": "Pesquisa por uma Unidade através do (unid_id)",
                 "operationId": "bacd89162fdfcece3328dc531df429e1",
                 "parameters": [
@@ -1578,27 +1524,74 @@
                 "summary": "Atualizar dados de uma Unidade",
                 "description": "Editar os dados de uma Unidade através do (unid_id)",
                 "operationId": "5f2bd24c793d11dd8e43eec35a810be3",
-                "parameters": [
-                    {
-                        "name": "unid_id",
-                        "in": "path",
-                        "description": "Nº de identificação da Unidade",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "unid_id",
+                                    "unid_nome",
+                                    "unid_sigla"
+                                ],
+                                "properties": {
+                                    "unid_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "unid_nome": {
+                                        "type": "string",
+                                        "example": "Pirinópolis"
+                                    },
+                                    "unid_sigla": {
+                                        "type": "string",
+                                        "example": "SIGLA"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
-                        "description": "Dados da Unidade atualizado com sucesso.",
+                        "description": "Unidade atualizada com sucesso",
                         "content": {
-                            "application/json": {}
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unidade atualizada com sucesso"
+                                        },
+                                        "unidade": {
+                                            "properties": {
+                                                "unid_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "unid_nome": {
+                                                    "type": "string",
+                                                    "example": "Pirinópolis"
+                                                },
+                                                "unid_sigla": {
+                                                    "type": "string",
+                                                    "example": "MT"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
                         }
                     },
+                    "400": {
+                        "description": "Requisição inválida"
+                    },
                     "404": {
-                        "description": "Erro ao atualizar a Unidade"
+                        "description": "Unidade não encontrada"
                     }
                 },
                 "security": [
@@ -1668,8 +1661,8 @@
             "description": "Endereços"
         },
         {
-            "name": "Fotos Pessoas",
-            "description": "Fotos Pessoas"
+            "name": "Foto Upload",
+            "description": "Foto Upload"
         },
         {
             "name": "Lotações",

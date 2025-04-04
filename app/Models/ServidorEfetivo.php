@@ -23,14 +23,14 @@ class ServidorEfetivo extends Model
     // Relacionamento Pessoa
     public function pessoa(): BelongsTo
     {
-        return $this->belongsTo(Pessoa::class, 'pes_id', 'pes_id');
+        return $this->belongsTo(Pessoa::class, 'pes_id', 'pes_id')->with(['pessoaEndereco', 'pessoaFoto']);
     }
 
     
     // Relacionamento Lotação
     public function lotacaoAtiva(): HasOne
     {
-        return $this->hasOne(Lotacao::class, 'pes_id', 'pes_id')->whereNull('lot_data_remocao'); // Considerando que remoção NULL significa ativo
+        return $this->hasOne(Lotacao::class, 'pes_id', 'pes_id')->with('unidade')->whereNull('lot_data_remocao'); // Considerando que remoção NULL significa ativo
     }
 
     

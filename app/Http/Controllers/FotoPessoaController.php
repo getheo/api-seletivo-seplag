@@ -3,32 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\FotoPessoa;
+use App\Models\Pessoa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class FotoPessoaController extends Controller
 {
-    /**
-    *  @OA\GET(
-    *      path="/api/foto-pessoa",
-    *      summary="Mostra as Foto das Pessoas",
-    *      description="Lista as fotos das pessoas",
-    *      tags={"Fotos Pessoas"},
-    *     @OA\Parameter(
-    *         name="page",
-    *         in="query",
-    *         description="Nº da página",
-    *         required=false,
-    *      ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="OK",
-    *          @OA\MediaType(
-    *              mediaType="application/json",
-    *          )
-    *      ),
-    *      security={{"bearerAuth":{}}}
-    *  )
-    */
+    
     public function index()
     {
         $fotoPessoa = FotoPessoa::with('pessoa')->paginate(10);      
@@ -40,56 +22,7 @@ class FotoPessoaController extends Controller
         //
     }
     
-    /**
-    *  @OA\POST(
-    *      path="/api/foto-pessoa",
-    *      summary="Cadastra uma nova Foto da Pessoa",
-    *      description="Registro de uma nova Foto",
-    *      tags={"Fotos Pessoas"},
-    *      @OA\Parameter(
-    *         name="fp_id",
-    *         in="query",
-    *         description="Nº de identifição da Foto",
-    *         required=true,
-    *      ),
-    *     @OA\Parameter(
-    *         name="pes_id",
-    *         in="query",
-    *         description="Nº de identificação da Pessoa",
-    *         required=true,
-    *      ),
-    *     @OA\Parameter(
-    *         name="fp_data",
-    *         in="query",
-    *         description="Data do cadastro da foto",
-    *         required=true,
-    *      ),
-    *     @OA\Parameter(
-    *         name="fp_bucket",
-    *         in="query",
-    *         description="Identificação do Bucket da Foto",
-    *         required=true,
-    *      ),
-    *     @OA\Parameter(
-    *         name="fp_hash",
-    *         in="query",
-    *         description="Código de cadastro da Foto",
-    *         required=true,
-    *      ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="OK",
-    *          @OA\MediaType(
-    *              mediaType="application/json",
-    *          )
-    *      ),
-    *      @OA\Response(
-    *          response=404,
-    *          description="Foto não encontrada"
-    *      ),
-    *      security={{"bearerAuth":{}}}
-    *  )
-    */
+    
     public function store(Request $request)
     {
         $validadeData = $request->validate([
@@ -111,33 +44,7 @@ class FotoPessoaController extends Controller
         return response()->json($fotoPessoa, 201);
     }
     
-    /**
-    *  @OA\GET(
-    *      path="/api/foto-pessoa/{fp_id}",
-    *      summary="Mostra uma Foto",
-    *      description="Pesquisa por uma foto através do (fp_id)",
-    *      tags={"Fotos Pessoas"},
-    *     @OA\Parameter(
-     *         name="fp_id",
-     *         in="path",
-     *         required=true,
-     *         description="Nº de identificação da foto",
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Foto Encontrada",
-    *          @OA\MediaType(
-    *              mediaType="application/json",
-    *          )
-    *      ),
-    *      @OA\Response(
-    *          response=404,
-    *          description="Foto não encontrada"
-    *      ),
-    *      security={{"bearerAuth":{}}}
-    *  )
-    */
+    
     public function show(string $fp_id)
     {
         $fotoPessoa = FotoPessoa::where('fp_id', $fp_id)->first();        
@@ -150,33 +57,7 @@ class FotoPessoaController extends Controller
     }
 
 
-    /**
-    *  @OA\PUT(
-    *      path="/api/foto-pessoa/{fp_id}",
-    *      summary="Atualizar dados de uma Foto",
-    *      description="Editar os dados de uma Foto através do (fp_id)",
-    *      tags={"Fotos Pessoas"},
-    *     @OA\Parameter(
-     *         name="fp_id",
-     *         in="path",
-     *         required=true,
-     *         description="Nº de identificação da Foto",
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Dados da Foto atualizado com sucesso.",
-    *          @OA\MediaType(
-    *              mediaType="application/json",
-    *          )
-    *      ),
-    *      @OA\Response(
-    *          response=404,
-    *          description="Erro ao atualizar a Foto"
-    *      ),
-    *      security={{"bearerAuth":{}}}
-    *  )
-    */    
+     
     public function edit(FotoPessoa $fotoPessoa)
     {
         //
@@ -198,36 +79,71 @@ class FotoPessoaController extends Controller
         return response()->json($fotoPessoa, 200);
     }
 
-    /**
-    *  @OA\DELETE(
-    *      path="/api/foto-pessoa/{fp_id}",
-    *      summary="Exclui uma Foto",
-    *      description="Exclui uma Foto através do (fp_id)",
-    *      tags={"Fotos Pessoas"},
-    *     @OA\Parameter(
-     *         name="fp_id",
-     *         in="path",
-     *         required=true,
-     *         description="ID da Foto",
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Foto excluída com sucesso",
-    *          @OA\MediaType(
-    *              mediaType="application/json",
-    *          )
-    *      ),
-    *      @OA\Response(
-    *          response=404,
-    *          description="Não foi possível excluir a Foto"
-    *      ),
-    *      security={{"bearerAuth":{}}}
-    *  )
-    */
+    
     public function destroy(FotoPessoa $fotoPessoa)
     {
         $fotoPessoa->delete();
         return response()->json(null, 204);
+    }
+
+    /**
+     * Upload de Arquivo
+     *
+     * @OA\POST(
+     *     path="/api/foto-pessoa",
+     *     summary="Faz o upload de um arquivo",
+     *     tags={"Foto Upload"},
+     *     @OA\Parameter(
+     *         name="pes_id",
+     *         in="query",
+     *         description="Nº de identificação da Pessoa",
+     *         required=true,
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="file",
+     *                     type="string",
+     *                     format="binary"
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Arquivo enviado com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean"),
+     *             @OA\Property(property="message", type="string"),
+     *             @OA\Property(property="file_path", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response=400, description="Erro no upload"),
+     *     security={{"bearerAuth":{}}}
+     * )
+     */
+
+    
+    public function upload(Request $request, $pes_id)
+    {
+        $pessoa = Pessoa::findOrFail($pes_id);
+
+        $fileName = Str::uuid() . '.' . $request->foto->extension();
+
+        $path = Storage::disk('s3')->put("fotos/{$fileName}", $request->foto, 'public');
+        $foto = FotoPessoa::create([
+            'pes_id' => $pessoa->pes_id,
+            'fp_bucket' => env('AWS_BUCKET'),
+            'fp_hash' => $fileName,
+            'fp_data' => now(),
+        ]);
+
+        return response()->json([
+            'message' => 'Foto enviada com sucesso!',
+            'foto_url' => Storage::disk('s3')->url($path),
+        ]);
     }
 }

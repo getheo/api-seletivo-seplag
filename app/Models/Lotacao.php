@@ -16,7 +16,7 @@ class Lotacao extends Model
 
     // Ajustar o primary key
     protected $primaryKey = 'lot_id';
-    protected $autoIncrement = true;
+    //public $incrementing = true;
 
     // Colunas que podem ser preenchidas em massa (opcional)
     protected $fillable = ['pes_id', 'unid_id', 'lot_data_lotacao', 'lot_data_remocao', 'lot_portaria'];
@@ -41,6 +41,8 @@ class Lotacao extends Model
 
     public function unidade(): HasOne
     {
-        return $this->hasOne(Unidade::class, 'unid_id', 'unid_id');
+        return $this->hasOne(Unidade::class, 'unid_id', 'unid_id')->with('endereco');
     }
+
+    
 }

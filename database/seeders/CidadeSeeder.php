@@ -14,24 +14,21 @@ class CidadeSeeder extends Seeder
     public function run(): void
     {
         if (!Cidade::where('cid_nome', 'Cuiabá')->first()) {
-            Cidade::create([                
-                'cid_id' => 1,
+            Cidade::create([                                
                 'cid_nome' => 'Cuiabá',
                 'cid_uf' => 'MT',
             ]);
         }
 
         if (!Cidade::where('cid_nome', 'Várzea Grande')->first()) {
-            Cidade::create([                
-                'cid_id' => 2,
+            Cidade::create([                                
                 'cid_nome' => 'Várzea Grande',
                 'cid_uf' => 'MT',
             ]);
         }        
 
         if (!Cidade::where('cid_nome', 'Rondonópolis')->first()) {
-            Cidade::create([                
-                'cid_id' => 3,
+            Cidade::create([                                
                 'cid_nome' => 'Rondonópolis',
                 'cid_uf' => 'MT',
             ]);

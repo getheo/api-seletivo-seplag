@@ -15,7 +15,7 @@ class Endereco extends Model
 
     // Ajustar o primary key
     protected $primaryKey = 'end_id';
-    protected $autoIncrement = true;
+    //public $incrementing = true;
 
     // Colunas que podem ser preenchidas em massa (opcional)
     protected $fillable = ['end_tipo_logradouro', 'end_logradouro', 'end_numero', 'end_bairro', 'cid_id'];

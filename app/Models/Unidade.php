@@ -16,7 +16,7 @@ class Unidade extends Model
 
     // Ajustar o primary key
     protected $primaryKey = 'unid_id';
-    protected $autoIncrement = true;    
+    //public $incrementing = true;
 
     // Colunas que podem ser preenchidas em massa (opcional)
     protected $fillable = ['unid_nome', 'unid_sigla'];

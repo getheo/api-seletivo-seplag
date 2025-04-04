@@ -77,17 +77,24 @@ class CidadeController extends Controller
     */
     public function store(Request $request)
     {
-        $validadeData = $request->validate([            
-            'cid_nome' => 'required|string',
-            'cid_uf' => 'required|string',
-        ]);
+        // Verifica ultimo ID da Cidade (problemas com increments)
+        $cidade = Cidade::where('cid_nome', $request->cid_nome)->first();
 
-        $cidade = Cidade::create([            
-            'cid_nome' => $validadeData['cid_nome'],
-            'cid_uf' => $validadeData['cid_uf'],
-        ]);
+        if(!$cidade){
 
-        return response()->json($cidade, 201);
+            $validadeData = $request->validate([            
+                'cid_nome' => 'required|string',
+                'cid_uf' => 'required|string',
+            ]);
+    
+            $cidade = Cidade::create([                  
+                'cid_nome' => $validadeData['cid_nome'],
+                'cid_uf' => $validadeData['cid_uf'],
+            ]);
+    
+            return response()->json($cidade, 201);
+        }
+        return response()->json(['message' => 'Cidade já cadastrada', 404]);
     }
     
     /**
@@ -126,43 +133,54 @@ class CidadeController extends Controller
         }
         return response()->json(['message' => 'Cidade encontrada','cidade' => $cidade]);
     }
-
-
-    /**
-    *  @OA\PUT(
-    *      path="/api/cidade/{cid_id}",
-    *      summary="Atualizar dados de uma Cidade",
-    *      description="Editar os dados de uma Cidade através do (cid_id)",
-    *      tags={"Cidades"},
-    *     @OA\Parameter(
-     *         name="cid_id",
-     *         in="path",
-     *         required=true,
-     *         description="Nº de identificação da Cidade",
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Dados da Cidade atualizado com sucesso.",
-    *          @OA\MediaType(
-    *              mediaType="application/json",
-    *          )
-    *      ),
-    *      @OA\Response(
-    *          response=404,
-    *          description="Erro ao atualizar a Cidade"
-    *      ),
-    *      security={{"bearerAuth":{}}}
-    *  )
-    */    
+    
+    
     public function edit(Cidade $cidade)
     {
         //
     }
-    
-    
-    public function update(Request $request, Cidade $cidade)
+
+
+    /**
+     * @OA\PUT(
+     *     path="/api/cidade/{ci_id}",
+     *     summary="Atualiza Cidade",
+     *     description="Atualiza os dados de uma Cidade",
+     *     tags={"Cidades"},     
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"cid_id", "cid_nome", "cid_uf"},
+     *             @OA\Property(property="cid_id", type="integer", example="1"),
+     *             @OA\Property(property="cid_nome", type="string", example="Pirinópolis"),
+     *             @OA\Property(property="cid_uf", type="string", example="MT")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cidade atualizada com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Cidade atualizada com sucesso"),
+     *             @OA\Property(property="cidade", type="object",
+     *                 @OA\Property(property="cid_id", type="integer", example=1),
+     *                 @OA\Property(property="cid_nome", type="string", example="Pirinópolis"),
+     *                 @OA\Property(property="cid_uf", type="string", example="MT")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=400, description="Requisição inválida"),
+     *     @OA\Response(response=404, description="Cidade não encontrado"),
+     *     security={{"bearerAuth":{}}}
+     * )
+     */   
+    public function update(Request $request)
     {
+        $cidade = Cidade::where('cid_id', $request->cid_id)->first();        
+
+        if (!$cidade) {            
+            return response()->json(['message' => 'Cidade não encontrada', 404]);
+        }        
+
         $validadeData = $request->validate([
             'cid_id' => 'required|integer',
             'cid_nome' => 'required|string',
@@ -171,7 +189,8 @@ class CidadeController extends Controller
 
         $cidade->update($validadeData);
 
-        return response()->json($cidade, 200);
+        //return response()->json($cidade, 200);
+        return response()->json(['message' => 'Cidade atualizada','cidade' => $cidade], 200);
     }
 
     /**

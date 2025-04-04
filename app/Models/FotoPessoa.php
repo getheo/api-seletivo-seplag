@@ -15,7 +15,7 @@ class FotoPessoa extends Model
 
     // Ajustar o primary key
     protected $primaryKey = 'fp_id';
-    protected $autoIncrement = true;
+    //public $incrementing = true;
 
     // Colunas que podem ser preenchidas em massa (opcional)
     protected $fillable = ['pes_id', 'fp_data', 'fp_bucket', 'fp_hash'];

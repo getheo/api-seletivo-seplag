@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Endereco;
+use App\Models\PessoaEndereco;
+use App\Models\UnidadeEndereco;
 use Illuminate\Http\Request;
 
 class EnderecoController extends Controller
@@ -31,7 +33,7 @@ class EnderecoController extends Controller
     */
     public function index()
     {
-        $endereco = Endereco::paginate(10);
+        $endereco = Endereco::with('cidade')->paginate(10);
         if(!$endereco)
         {
             return response('Não encontrado', 404)->json();
@@ -50,12 +52,6 @@ class EnderecoController extends Controller
     *      summary="Cadastra um novo Endereço",
     *      description="Registro de um novo Endereço",
     *      tags={"Endereços"},
-    *      @OA\Parameter(
-    *         name="end_id",
-    *         in="query",
-    *         description="Nº de identifição do Endereço",
-    *         required=true,
-    *      ),
     *     @OA\Parameter(
     *         name="end_tipo_logradouro",
     *         in="query",
@@ -101,34 +97,41 @@ class EnderecoController extends Controller
     *  )
     */
     public function store(Request $request)
-    {
-        $validadeData = $request->validate([
-            'end_id' => 'required|integer',
-            'end_tipo_logradouro' => 'required|string',
-            'end_logradouro' => 'required|string',
-            'end_numero' => 'required|string',
-            'end_bairro' => 'required|string',
-            'cid_id' => 'required|integer',
-        ]);
+    {     
+        $endereco = Endereco::where('end_tipo_logradouro', $request->end_tipo_logradouro)->first();
 
-        // Verifica se já existe
-        $endereco = Endereco::where('end_id', $request->end_id)->first();
-        if(!$endereco){
+        if (!$endereco) {             
 
-            $endereco = Endereco::create([            
-                'cid_id' => $validadeData['cid_id'],
-                'cid_nome' => $validadeData['cid_nome'],
-                'cid_uf' => $validadeData['cid_uf'],
+            $validadeData = $request->validate([                
+                'end_tipo_logradouro' => 'required|string',
+                'end_logradouro' => 'required|string',
+                'end_numero' => 'required|string',
+                'end_bairro' => 'required|string',
+                'cid_id' => 'required|integer',
             ]);
+    
+            $endereco = Endereco::create([            
+                'end_tipo_logradouro' => $validadeData['end_tipo_logradouro'],
+                'end_logradouro' => $validadeData['end_logradouro'],
+                'end_numero' => $validadeData['end_numero'],
+                'end_bairro' => $validadeData['end_bairro'],
+                'cid_id' => $validadeData['cid_id'],
+            ]);
+            
+            return response()->json(['message' => 'Endereço cadastrado com sucesso.','endereco' => $endereco], 200);
         }
-        return response()->json(['message' => 'Endereço cadastrado com sucesso', 'endereco' => $endereco, 201]);
+
+        return response()->json(['message' => 'Endereço com esse nome já cadastrado.', 404]);
+
+
+
     }
     
     /**
     *  @OA\GET(
     *      path="/api/endereco/{end_id}",
     *      summary="Mostra um Endereco",
-    *      description="Pesquisa por um Endereço através do (end_id)",
+    *      description="Pesquisa Endereço através do (end_id)",
     *      tags={"Endereços"},
     *     @OA\Parameter(
      *         name="end_id",
@@ -153,7 +156,7 @@ class EnderecoController extends Controller
     */
     public function show(string $end_id)
     {
-        $endereco = Endereco::where('end_id', $end_id)->first();        
+        $endereco = Endereco::where('end_id', $end_id)->with('cidade')->first();        
 
         if (!$endereco) {            
             return response()->json(['message' => 'Endereço não encontrado', 404]);
@@ -238,9 +241,26 @@ class EnderecoController extends Controller
     *      security={{"bearerAuth":{}}}
     *  )
     */
-    public function destroy(Endereco $endereco)
+    public function destroy(int $end_id)
     {
-        $endereco->delete();
-        return response()->json(null, 204);
+        $pessoaEndereco = PessoaEndereco::where('end_id', $end_id)->first();
+        $unidadeEndereco = UnidadeEndereco::where('end_id', $end_id)->first();
+        $endereco = Endereco::where('end_id', $end_id)->first();
+
+        if(!$endereco){ 
+            return response()->json(['message' => 'Endereço não encontrado.', 404]); 
+        }
+        if (!$pessoaEndereco) {
+            return response()->json(['message' => 'Endereço não pode ser excluído pois existe vinculo com pessoa.', 404]);
+        }
+        if (!$unidadeEndereco) {
+            return response()->json(['message' => 'Endereço não pode ser excluído pois existe vinculo com unidade.', 404]);
+        }
+
+        //$endereco->delete();
+        //return response()->json(null, 204);
+        return response()->json(['message' => 'Endereço excluído','endereco' => $endereco, 200]);
+        
+        
     }
 }

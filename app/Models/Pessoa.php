@@ -16,7 +16,7 @@ class Pessoa extends Model
 
     // Ajustar o primary key
     protected $primaryKey = 'pes_id';
-    protected $autoIncrement = true;
+    //public $incrementing = true;
 
     // Colunas que podem ser preenchidas em massa (opcional)
     protected $fillable = ['pes_id', 'pes_nome', 'pes_data_nascimento', 'pes_sexo', 'pes_mae', 'pes_pai'];
@@ -39,6 +39,11 @@ class Pessoa extends Model
     public function pessoaFoto(): HasMany
     {
         return $this->HasMany(FotoPessoa::class, 'pes_id', 'pes_id');
+    }
+
+    public function endereco(): HasMany
+    {
+        return $this->HasMany(Endereco::class, 'end_id', 'end_id');
     }
     
 

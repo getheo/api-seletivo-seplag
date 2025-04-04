@@ -43,8 +43,8 @@ class ServidorTemporarioController extends Controller
     /**
     *  @OA\POST(
     *      path="/api/servidor-temporario",
-    *      summary="Cadastra um Novo Servidor Temporário",
-    *      description="Registro de um novo Servidor Temporário",
+    *      summary="Realiza o vínculo da Pessoa e Servidor Temporário",
+    *      description="Registro do vínculo do novo Servidor Temporário",
     *      tags={"Servidores Temporários"},
     *      @OA\Parameter(
     *         name="pes_id",
@@ -86,7 +86,7 @@ class ServidorTemporarioController extends Controller
         // Necessario informar a Pessoa (pes_id) para cadastrar o Servidor Efetivo
         $pessoa = Pessoa::where('pes_id', $request->pes_id)->first();
 
-        if($pessoa){
+        if(!$pessoa){
 
             $validadeData = $request->validate([
                 'pes_id' => 'required|integer',
@@ -135,10 +135,16 @@ class ServidorTemporarioController extends Controller
     *      security={{"bearerAuth":{}}}
     *  )
     */
-    public function show(ServidorTemporario $servidorTemporario)
+    public function show(int $pes_id)
     {
-        $servidorTemporario = ServidorTemporario::where('pes_id', $servidorTemporario->pes_id)->with('pessoa')->first();
-        return response()->json($servidorTemporario);
+        $servidorTemporario = ServidorTemporario::where('pes_id', $pes_id)->with(['pessoa', 'lotacao'])->first();
+        //return response()->json($unidade);
+
+        if (!$servidorTemporario) {            
+            return response()->json(['message' => 'Servidor Temporário não encontrado', 404]);
+        }
+        return response()->json(['message' => 'Servidor Temporário encontrado.','servidor-efetivo' => $servidorTemporario]);
+        
     }
 
     
@@ -148,39 +154,37 @@ class ServidorTemporarioController extends Controller
     }
 
     /**
-    *  @OA\PUT(
-    *      path="/api/servidor-temporario/{pes_id}",
-    *      summary="Atualiza os dados do Servidor Temporário",
-    *      description="Edita os dados do Servidor Temporário através do (pes_id)",
-    *      tags={"Servidores Temporários"},
-    *      @OA\Parameter(
-    *         name="st_data_admissao",
-    *         in="path",
-    *         required=true,
-    *         description="Data de Admissão",
-    *         @OA\Schema(type="date", example="2025-01-01")
-    *      ),
-    *      @OA\Parameter(
-    *         name="st_data_demissao",
-    *         in="path",
-    *         required=true,
-    *         description="Data de Demissão",
-    *         @OA\Schema(type="date", example="2025-01-01")
-    *      ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Dados atualizados do Servidor Efetivo.",
-    *          @OA\MediaType(
-    *              mediaType="application/json",
-    *          )
-    *      ),
-    *      @OA\Response(
-    *          response=404,
-    *          description="Erro ao atualizar os dados do Servidor Efetivo"
-    *      ),
-    *      security={{"bearerAuth":{}}}
-    *  )
-    */ 
+     * @OA\PUT(
+     *     path="/api/servidor-temporario/{pes_id}",
+     *     summary="Atualizar dados de um Servidor Temporário",
+     *     description="Editar os dados de um Servidor Temporário",
+     *     tags={"Servidores Temporários"},     
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"pes_id", "st_data_admissao", "st_data_demissao"},
+     *             @OA\Property(property="pes_id", type="integer", example="1"),
+     *             @OA\Property(property="st_data_admissao", type="string", example="2024-05-01"),
+     *             @OA\Property(property="st_data_demissao", type="string", example="2025-12-12")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Servidor Temporário atualizado com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Servidor Temporário atualizado com sucesso"),
+     *             @OA\Property(property="servidor-temporario", type="object",
+     *                 @OA\Property(property="pes_id", type="integer", example=1),
+     *                 @OA\Property(property="st_data_admissao", type="string", example="2024-05-01"),
+     *                 @OA\Property(property="st_data_demissao", type="string", example="2025-12-12")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=400, description="Requisição inválida"),
+     *     @OA\Response(response=404, description="Não encontrado"),
+     *     security={{"bearerAuth":{}}}
+     * )
+     */ 
     public function update(Request $request, ServidorTemporario $servidorTemporario)
     {
         $validadeData = $request->validate([

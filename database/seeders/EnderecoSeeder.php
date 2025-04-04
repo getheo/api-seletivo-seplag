@@ -14,9 +14,8 @@ class EnderecoSeeder extends Seeder
     public function run(): void
     {
         // Endereço para as Unidades
-        if (!Endereco::where('end_id', 1)->first()) {
-            Endereco::create([
-                'end_id' => 1,
+        if (!Endereco::where('end_logradouro', 'Rua C - Complexo Paiaguás')->first()) {
+            Endereco::create([                
                 'end_tipo_logradouro' => 'Bloco III',
                 'end_logradouro' => 'Rua C - Complexo Paiaguás',
                 'end_numero' => 34,
@@ -25,9 +24,8 @@ class EnderecoSeeder extends Seeder
             ]);
         }
 
-        if (!Endereco::where('end_id', 2)->first()) {
-            Endereco::create([
-                'end_id' => 2,
+        if (!Endereco::where('end_logradouro', 'Rua C')->first()) {
+            Endereco::create([                
                 'end_tipo_logradouro' => 'Complexo Paiaguás',
                 'end_logradouro' => 'Rua C',
                 'end_numero' => 15,
@@ -36,9 +34,8 @@ class EnderecoSeeder extends Seeder
             ]);
         }
 
-        if (!Endereco::where('end_id', 3)->first()) {
-            Endereco::create([
-                'end_id' => 3,
+        if (!Endereco::where('end_logradouro', 'R. Eng. Edgar Prado Arze')->first()) {
+            Endereco::create([                
                 'end_tipo_logradouro' => 'Complexo Paiaguás',
                 'end_logradouro' => 'R. Eng. Edgar Prado Arze',
                 'end_numero' => 75,
@@ -48,9 +45,8 @@ class EnderecoSeeder extends Seeder
         }
 
         // Endereco para as Pessoas
-        if (!Endereco::where('end_id', 4)->first()) {
-            Endereco::create([
-                'end_id' => 4,
+        if (!Endereco::where('end_logradouro', 'Rua do endereço da 1 Pessoa')->first()) {
+            Endereco::create([                
                 'end_tipo_logradouro' => 'Tipo de logradouro da 1 pessoa',
                 'end_logradouro' => 'Rua do endereço da 1 Pessoa',
                 'end_numero' => 45,
@@ -60,9 +56,8 @@ class EnderecoSeeder extends Seeder
         }
 
         // Endereco para as Pessoas
-        if (!Endereco::where('end_id', 5)->first()) {
-            Endereco::create([
-                'end_id' => 5,
+        if (!Endereco::where('end_logradouro', 'Rua do endereço da 2 Pessoa em VG')->first()) {
+            Endereco::create([                
                 'end_tipo_logradouro' => 'Tipo de logradouro da 2 pessoa',
                 'end_logradouro' => 'Rua do endereço da 2 Pessoa em VG',
                 'end_numero' => 0,
@@ -72,9 +67,8 @@ class EnderecoSeeder extends Seeder
         }
 
         // Endereco para as Pessoas
-        if (!Endereco::where('end_id', 6)->first()) {
-            Endereco::create([
-                'end_id' => 6,
+        if (!Endereco::where('end_logradouro', 'Rua do endereço da 3 Pessoa em ROO')->first()) {
+            Endereco::create([                
                 'end_tipo_logradouro' => 'Tipo de logradouro da 3 pessoa',
                 'end_logradouro' => 'Rua do endereço da 3 Pessoa em ROO',
                 'end_numero' => 18,
@@ -84,9 +78,8 @@ class EnderecoSeeder extends Seeder
         }
 
         // Endereco para as Pessoas
-        if (!Endereco::where('end_id', 7)->first()) {
-            Endereco::create([
-                'end_id' => 7,
+        if (!Endereco::where('end_logradouro', 'Rua do endereço da 4 Pessoa Cba')->first()) {
+            Endereco::create([                
                 'end_tipo_logradouro' => 'Tipo de logradouro da 4 pessoa',
                 'end_logradouro' => 'Rua do endereço da 4 Pessoa Cba',
                 'end_numero' => 02,
@@ -96,9 +89,8 @@ class EnderecoSeeder extends Seeder
         }
 
         // Endereco para as Pessoas
-        if (!Endereco::where('end_id', 8)->first()) {
-            Endereco::create([
-                'end_id' => 8,
+        if (!Endereco::where('end_logradouro', 'Rua do endereço da 5 Pessoa VG')->first()) {
+            Endereco::create([                
                 'end_tipo_logradouro' => 'Tipo de logradouro da 5 pessoa',
                 'end_logradouro' => 'Rua do endereço da 5 Pessoa VG',
                 'end_numero' => 10,

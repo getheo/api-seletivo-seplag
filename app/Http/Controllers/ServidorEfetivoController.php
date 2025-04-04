@@ -30,7 +30,7 @@ class ServidorEfetivoController extends Controller
     */
     public function index()
     {
-        $servidorEfetivo = ServidorEfetivo::with('pessoa')->paginate(10);
+        $servidorEfetivo = ServidorEfetivo::with(['pessoa', 'lotacaoAtiva'])->paginate(10);
         return response()->json($servidorEfetivo, 200);        
     }
     
@@ -43,7 +43,7 @@ class ServidorEfetivoController extends Controller
     *  @OA\POST(
     *      path="/api/servidor-efetivo",
     *      summary="Cadastra um Novo Servidor Efetivo",
-    *      description="Registro de uma nova Cidade",
+    *      description="Registrar a Pessoa (pes_id) e seua matrícula",
     *      tags={"Servidores Efetivos"},
     *      @OA\Parameter(
     *         name="pes_id",
@@ -77,22 +77,19 @@ class ServidorEfetivoController extends Controller
         $pessoa = Pessoa::where('pes_id', $request->pes_id)->first();
 
         if($pessoa){
-
             $validadeData = $request->validate([
                 'pes_id' => 'required|integer',
                 'se_matricula' => 'required|string',
-            ]);
-    
+            ]);    
             $servidorEfetivo = ServidorEfetivo::create([            
                 'pes_id' => $validadeData['pes_id'],
-                'pes_nome' => $validadeData['se_matricula'],
-            ]);
-    
-            return response()->json("Servidor Efetivo cadastrado com sucesso.", 201);
-            
+                'se_matricula' => $validadeData['se_matricula'],
+            ]);    
+            return response()->json(['message' => 'Servidor Efetivo cadastrado com sucesso.', 'servidor-efetivo' => $servidorEfetivo, 200]);
 
         } else {
-            return response()->json("Pessoa não encontrada. Necessário informar a Pessoa.", 204);
+            //return response()->json("Pessoa não encontrada. Necessário informar a Pessoa.", 204);
+            return response()->json(['message' => 'Pessoa não encontrada. Necessário informar a Pessoa.'], 404);
         }
 
         /*
@@ -140,10 +137,16 @@ class ServidorEfetivoController extends Controller
     *      security={{"bearerAuth":{}}}
     *  )
     */
-    public function show(ServidorEfetivo $servidorEfetivo)
+    public function show(int $pes_id)
     {
-        $servidorEfetivo = ServidorEfetivo::where('pes_id', $servidorEfetivo->pes_id)->with('pessoa')->first();
-        return response()->json($servidorEfetivo);
+        $servidorEfetivo = ServidorEfetivo::where('pes_id', $pes_id)->with(['pessoa', 'lotacaoAtiva'])->first();
+        //return response()->json($unidade);
+
+        if (!$servidorEfetivo) {            
+            return response()->json(['message' => 'Servidor Efetivo não encontrado', 404]);
+        }
+        return response()->json(['message' => 'Servidor Efetivo encontrado.','servidor-efetivo' => $servidorEfetivo]);
+        
     }
 
     
@@ -153,32 +156,35 @@ class ServidorEfetivoController extends Controller
     }
     
     /**
-    *  @OA\PUT(
-    *      path="/api/servidor-efetivo/{pes_id}",
-    *      summary="Atualiza a matrícula um Servidor Efetivo",
-    *      description="Edita a matrícula de um Servidor Efetivo (pes_id)",
-    *      tags={"Servidores Efetivos"},
-    *     @OA\Parameter(
-     *         name="se_matricula",
-     *         in="path",
+     * @OA\PUT(
+     *     path="/api/servidor-efetivo/{pes_id}",
+     *     summary="Atualizar dados de um Servidor Efetivo",
+     *     description="Editar a matrícula de um Servidor Efetivo",
+     *     tags={"Servidores Efetivos"},     
+     *     @OA\RequestBody(
      *         required=true,
-     *         description="Nº da Matrícula do Servidor Efetivo",
-     *         @OA\Schema(type="integer", example=1)
+     *         @OA\JsonContent(
+     *             required={"pes_id", "se_matricula"},
+     *             @OA\Property(property="pes_id", type="integer", example="1"),
+     *             @OA\Property(property="se_matricula", type="string", example="00001")
+     *         )
      *     ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Dados atualizados do Servidor Efetivo.",
-    *          @OA\MediaType(
-    *              mediaType="application/json",
-    *          )
-    *      ),
-    *      @OA\Response(
-    *          response=404,
-    *          description="Erro ao atualizar os dados do Servidor Efetivo"
-    *      ),
-    *      security={{"bearerAuth":{}}}
-    *  )
-    */  
+     *     @OA\Response(
+     *         response=200,
+     *         description="Servidor Efetivo atualizado com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Servidor Efetivo atualizado com sucesso"),
+     *             @OA\Property(property="servidor-efetivo", type="object",
+     *                 @OA\Property(property="pes_id", type="integer", example=1),
+     *                 @OA\Property(property="se_matricula", type="string", example="00001")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=400, description="Requisição inválida"),
+     *     @OA\Response(response=404, description="Não encontrado"),
+     *     security={{"bearerAuth":{}}}
+     * )
+     */  
     public function update(Request $request, ServidorEfetivo $servidorEfetivo)
     {
         $validadeData = $request->validate([

@@ -23,19 +23,25 @@ class ServidorTemporario extends Model
     // Relacionamento Pessoa
     public function pessoa(): BelongsTo
     {
-        return $this->belongsTo(Pessoa::class, 'pes_id', 'pes_id');
+        return $this->belongsTo(Pessoa::class, 'pes_id', 'pes_id')->with(['pessoaEndereco', 'pessoaFoto']);
     }
     
     // Relacionamento Lotação
     public function lotacaoAtiva(): HasOne
     {
-        return $this->hasOne(Lotacao::class, 'pes_id', 'pes_id')->whereNull('lot_data_remocao'); // NULL significa ativo
+        return $this->hasOne(Lotacao::class, 'pes_id', 'pes_id')->whereNull('st_data_demissao'); // NULL significa ativo
     }
     
     // Relacionamento Todas as Lotações    
     public function lotacoes(): HasMany
     {
         return $this->hasMany(Lotacao::class, 'pes_id', 'pes_id');
+    }
+
+    // Relacionamento Para mostrar onde o servidor é lotado
+    public function lotacao(): HasOne
+    {
+        return $this->hasOne(Lotacao::class, 'pes_id', 'pes_id')->with('unidade');
     }
     
     // Relacionamento Foto (através da tabela pessoa)     

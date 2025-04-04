@@ -16,7 +16,7 @@ class PessoaEndereco extends Model
 
     // Ajustar o primary key
     protected $primaryKey = 'pes_id';
-    protected $autoIncrement = false;
+    //public $incrementing = true;
 
     // Colunas que podem ser preenchidas em massa (opcional)
     protected $fillable = ['pes_id', 'end_id'];
