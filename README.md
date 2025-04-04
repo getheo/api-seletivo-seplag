@@ -30,7 +30,7 @@ Este repositório contém um projeto com uma solução que será utilizado exclu
 <br>
 
 ### Faça o Clone do Projeto
-#### O projeto encontra-se no GIT na branch master, execute o comando para para baixar:
+#### O projeto encontra-se no GIT na branch master, execute o comando para baixar:
 ```bash
 git clone https://github.com/getheo/api-seletivo-seplag.git
 ```
@@ -88,7 +88,23 @@ docker ps -a
 ```
 <br>
 
-### 🗄️ Configurando o banco de dados no Container
+### Caso precise excluir tudo para refazer o processo:
+```bash
+docker compose down
+```
+
+### Exclui informações de cache:
+```bash
+docker system prune
+```
+
+### Confirme exclusão de cache de container:
+```bash
+docker container prune -f
+```
+<br>
+
+### 🗄️ Configurando o banco de dados no container
 Após a confirmação dos containers instalados com suas respectivas imagens, para garantir que tudo esteja funcionando, execute as migrations dentro do contaniner (api-seletivo-seplag)
 ```bash
 docker exec api-seletivo-seplag php artisan migrate:fresh
@@ -143,21 +159,6 @@ http://localhost:9090/login
 - 🔑 **Senha:** `miniostorage`
 <br>
 
-### Caso precise excluir tudo para refazer o processo:
-```bash
-docker compose down
-```
-
-### Exclui informações de cache:
-```bash
-docker system prune
-```
-
-### Confirme exclusão de cache de container:
-```bash
-docker container prune -f
-```
-<br>
 
 ### 📌 Endpoints da API
 

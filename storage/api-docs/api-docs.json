@@ -75,17 +75,12 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successo no Login"
+                        "description": "Successo no Refresh"
                     },
                     "401": {
                         "description": "Credenciais inválidas"
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             }
         },
         "/api/cidade": {
@@ -558,7 +553,7 @@
                                         "message": {
                                             "type": "string"
                                         },
-                                        "file_path": {
+                                        "file": {
                                             "type": "string"
                                         }
                                     },

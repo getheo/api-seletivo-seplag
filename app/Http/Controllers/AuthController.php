@@ -54,7 +54,7 @@ class AuthController extends Controller
         }
 
         // Cria token válido por 5 minutos
-        $token = $user->createToken('auth-token', ['*'], now()->addMinutes(10))->plainTextToken;
+        $token = $user->createToken('auth-token', ['*'], now()->addMinutes(5))->plainTextToken;
 
         return response()->json(['token' => $token]);
     }
@@ -92,35 +92,16 @@ class AuthController extends Controller
     *         ),
     *         @OA\Schema(type="string")
     *     ),
-    *     @OA\Response(response="200", description="Successo no Login"),
-    *     @OA\Response(response="401", description="Credenciais inválidas"),
-    *     security={{"bearerAuth":{}}}
+    *     @OA\Response(response="200", description="Successo no Refresh"),
+    *     @OA\Response(response="401", description="Credenciais inválidas")
     * )
     */
     public function refresh(Request $request)
-    {
-        /*
+    {        
         $user = $request->user();
-        $request->user()->tokens()->delete(); // Revoga tokens antigos
-        //$user->tokens()->delete();
+        //$request->user()->tokens()->delete(); // Revoga tokens antigos
+        $user->tokens()->delete();
         $newToken = $user->createToken('auth-token', ['*'], now()->addMinutes(5))->plainTextToken;
-        return response()->json(['token' => $newToken]);        
-        */        
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        $user = User::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json(['error' => 'Credenciais inválidas'], 401);
-        }
-
-        // Cria token válido por 5 minutos
-        $token = $user->createToken('auth-token', ['*'], now()->addMinutes(5))->plainTextToken;
-
-        return response()->json(['token_novo' => $token]);
-        
+        return response()->json(['token_new' => $newToken]);        
     }
 }
