@@ -5,54 +5,52 @@
 Candidato: Guilherme Théo Coleta Arruda<br>
 CPF: 916.496.921-53<br>
 
-Inscrição: 8066 - Perfil: DESENVOLVEDOR PHP - SÊNIOR
-Inscrição: 8534 - Perfil: DESENVOLVEDOR PHP - PLENO
+- Inscrição: 8066 - Perfil: DESENVOLVEDOR PHP - SÊNIOR
+- Inscrição: 8534 - Perfil: DESENVOLVEDOR PHP - PLENO
+<br>
 
-
-## Projeto API REST em PHP e framework Laravel com Docker Compose e registros em base de dados postgreSQL.
+## Projeto API REST em PHP Laravel + base de dados postgreSQL + Docker Compose.
 Este repositório contém um projeto com uma solução que será utilizado exclusivamente para uma avaliação de processo seletivo da SEPLAG.
-
-
+<br>
 
 ### 🛠 Tecnologias
 
-
-
-As seguintes ferramentas foram usadas na construção do projeto:
+#### As seguintes ferramentas foram usadas na construção do projeto:
 - PHP 8+
 - Laravel 11+
 - PostgreSQL
 - MinIO (armazenamento das fotos)
 - Docker e Docker Compose
-
-
+<br>
 
 ### 🛠 Pré-requisitos
 - GIT instalado para baixar o projeto
 - Docker Desktop instalado
 - Composer (dependências do PHP Laravel)
-
-
+<br>
 
 ### Faça o Clone do Projeto
-O projeto encontra-se no GIT na branch master, execute o comando para para baixar:
+#### O projeto encontra-se no GIT na branch master, execute o comando para para baixar:
 ```bash
 git clone https://github.com/getheo/api-seletivo-seplag.git
 ```
----
+<br>
 
-### Na raíz do projeto já está o arquivo de configurações do projeto
-```bash
-.env
-```
----
+#### Navegue até o diretório onde realizou o clone do projeto
+`cd api-seletivo-seplag`
+<br>
 
+#### Na raíz do projeto já estão os arquivos de configurações
+`.env`
+`Dockerfile`
+`docker-compose.yml`
+<br>
 
-### Instale as dependências do PHP Laravel
+#### Instale as dependências do PHP Laravel
 ```bash
 composer install
 ```
-
+<br>
 
 ### 🐳 Verificando o Docker
 
@@ -65,6 +63,7 @@ Verifica se já existe Containers instalados
 ```bash
 docker ps -a
 ```
+<br>
 
 ### 🏗️ Configurando o ambiente
 #### Os arquivos (Dockerfile e docker-compose.yml) estão configurados para instanciar e subir os containers:
@@ -76,8 +75,7 @@ docker ps -a
 - api-seletivo-seplag
 - postgres
 - minio/minio
-
-
+<br>
 
 Desta forma, basta acessar a raiz do projeto pelo terminal e executar o comando:
 ```bash
@@ -88,36 +86,42 @@ Aguarde a instalação e configurações dos contaniers, após instalado, confir
 ```bash
 docker ps -a
 ```
+<br>
 
-### 🗄️ Configurando o bando de dados no Container
+### 🗄️ Configurando o banco de dados no Container
 Após a confirmação dos containers instalados com suas respectivas imagens, para garantir que tudo esteja funcionando, execute as migrations dentro do contaniner (api-seletivo-seplag)
 ```bash
 docker exec api-seletivo-seplag php artisan migrate:fresh
 ```
+<br>
 
 Execute o comando abaixo para inserir alguns dados para os teste.
 ```bash
 docker exec api-seletivo-seplag php artisan db:seed
 ```
+<br>
 
 ### 📚 Gerando a Documentação
 Execute o comando abaixo para criar a documentação Swagger, onde será possível testar todos os endpoints.
 ```bash
 docker exec api-seletivo-seplag php artisan l5-swagger:generate
 ```
+<br>
 
 ### 🌐 Iniciando o Servidor Web no Container
 Execute o comando abaixo para instanciar o servidor web no container (api-seletivo-seplag)
-```
+```bash
 docker exec api-seletivo-seplag php artisan serve
 ```
+<br>
+
 ### 🧪 Testando a API
 Para verificar a documentação e realizar os teste, basta acessar pelo navegador (Swagger e/ou POSTMAN):
 ```bash
 http://localhost:8000/api/documentation
 ```
 
-### No Swagger, 1º é necessário realizar o login na Autenticação. (pré-cadastrado)
+É necessário realizar a Autenticação no endpoint `/api/login`.
 ```bash
 http://localhost:8000/api/login
 ```
@@ -125,11 +129,10 @@ http://localhost:8000/api/login
 - 🔑 **Senha:** `seplag2025`
 
 
-- Execute e será gerado o TOKEN. Copie e cole na variável "authorize" (canto superior direito).
+- Execute e será gerado o TOKEN. Copie e cole na variável "Authorize" (canto superior direito da tela do Swagger).
 - Após esta ação é possível realizar os testes. Tempo do token expira em 5 minutos.
 - Para renovar o token, utilize o serviço /api/refresh. Copie e cole o novo token na opção Authorize.
-
-
+<br>
 
 ### Para verificar os arquivos publicados no MinIO, acesse:
 ```bash
@@ -138,8 +141,7 @@ http://localhost:9090/login
 
 - 📧 **Username:** `minio`
 - 🔑 **Senha:** `miniostorage`
-
-
+<br>
 
 ### Caso precise excluir tudo para refazer o processo:
 ```bash
@@ -155,11 +157,7 @@ docker system prune
 ```bash
 docker container prune -f
 ```
-
-
----
-
-
+<br>
 
 ### 📌 Endpoints da API
 
@@ -225,7 +223,7 @@ Abaixo estão os principais endpoints da API.
 | `GET`   | `/api/lotacao`                   | Retorna todas as Lotações (unidades e pessoas relacionadas) | (paginado)                                                                                                                      |
 | `GET`   | `/api/lotacao/{lot_id}`          | Retorna lotação específica                                  | `lot_id`                                                                                                                        |
 | `GET`   | `/api/lotacao/unidade/{unid_id}` | Pesquisa as pessoas lotadas em uma Unidade específica       | `unid_id`                                                                                                                       |
-| `POST`  | `/api/lotacao`                   | Vincula uma pessoa a uma unidade (Lotação)                  | `{ "pes_id": 1, "unid_id": 2, "lot_data_lotacao": "2025-01-30", "lot_data_remocao": NULL, "lot_portaria": "Portaria 01-2025" }` |
+| `POST`  | `/api/lotacao`                   | Vincular uma pessoa a uma unidade (Lotação)                 | `{ "pes_id": 1, "unid_id": 2, "lot_data_lotacao": "2025-01-30", "lot_data_remocao": NULL, "lot_portaria": "Portaria 01-2025" }` |
 | `PUT`   | `/api/lotacao/{lot_id}`          | Atualiza dados da lotação específica                        | `{ "lot_data_lotacao": "2025-01-30", "lot_data_remocao": "2025-04-01", "lot_portaria": "Portaria 01-2025" }`                    |
 | `DELETE`| `/api/lotacao/{lot_id}`          | Exclui informação de vínculo de pessoa com unidade          | `lot_id`                                                                                                                        |
 
@@ -303,7 +301,7 @@ Abaixo estão os principais endpoints da API.
 |---------|-------------------------------------|-----------------------------------------|------------------------------------------------------------------------------------------|
 | `GET`   | `/api/servidor-temporario`          | Retorna os servidores temporários       | (paginado)                                                                               |
 | `GET`   | `/api/servidor-temporario/{pes_id}` | Retorna um servidor servidor temporário | `pes_id`                                                                                 |
-| `POST`  | `/api/servidor-temporario`          | Cadastra um novo servidor temporário    | `{ "pes_id": "1", "st_data_admissao": "2024-02-10", "st_data_demissao": "2025-01-01" }`  |
+| `POST`  | `/api/servidor-temporario`          | Cadastra um novo servidor temporário    | `{ "pes_id": "1", "st_data_admissao": "2024-02-10", "st_data_demissao": "2025-01-01" }` (necessário cadastrar uma pessoa)  |
 | `PUT`   | `/api/servidor-temporario/pes_{id}` | Atualiza um servidor temporário         | `{ "st_data_admissao": "2024-02-10", "st_data_demissao": "2025-01-01" }`                 |
 | `DELETE`| `/api/servidor-temporario/{pes_id}` | Exclui um servidor temporário           | `pes_id`                                                                                 |
 
@@ -319,3 +317,71 @@ Abaixo estão os principais endpoints da API.
   "st_data_demissao": "2025-01-01"
 }
 ```
+
+---
+
+- Cidades (recurso opcional)
+
+
+| Método  | Endpoint               | Descrição                      |                 Parâmetros / Corpo                   |
+|---------|------------------------|--------------------------------|------------------------------------------------------|
+| `GET`   | `/api/cidade`          | Retorna todas as Cidades       | (paginado)                                           |
+| `GET`   | `/api/cidade/{cid_id}` | Retorna uma cidade específica  | `cid_id`                                             |
+| `POST`  | `/api/cidade`          | Cadastra uma cidade            | `{ "cid_nome": "Nome cidade", "cid_uf": "MT" }`      |
+| `PUT`   | `/api/cidade/{cid_id}` | Atualiza uma cidade            | `{ "cid_nome": "Novo nome cidade", "cid_uf": "SP" }` |
+| `DELETE`| `/api/cidade/{cid_id}` | Exclui uma cidade              | `cid_id`                                             |
+
+
+### 🔄 Exemplo de Requisição
+
+##### Cadastrar uma cidade (POST `/api/cidade`)
+
+```json
+{
+  "cid_nome": "Minha Cidade",
+  "cid_uf": "MT"
+}
+```
+
+---
+
+- Endereços (recurso opcional)
+
+
+| Método  | Endpoint                 | Descrição                      |                 Parâmetros / Corpo                   |
+|---------|--------------------------|--------------------------------|------------------------------------------------------|
+| `GET`   | `/api/endereco`          | Retorna todos os Endereços     | (paginado)                                           |
+| `GET`   | `/api/endereco/{end_id}` | Retorna um endereço específico | `end_id`                                             |
+| `POST`  | `/api/endereco`          | Cadastra um endereço           | `{ "end_tipo_logradouro": "Bloco III", "end_logradouro": "Rua do Endereço", "end_numero": "25", "end_bairro": "Bairro Tal", "cid_id": "1" }` |
+| `PUT`   | `/api/endereco/{end_id}` | Atualiza um endereço           | `{ "end_tipo_logradouro": "Bloco I", "end_logradouro": "Rua atualizada", "end_numero": "10", "end_bairro": "Bairro Atualido", "cid_id": "1" }` |
+| `DELETE`| `/api/endereco/{end_id}` | Exclui um endereço             | `end_id`                                             |
+
+
+### 🔄 Exemplo de Requisição
+
+##### Mostra um endereço (POST `/api/endereco/1`)
+
+```json
+{
+  "message": "Endereço encontrado",
+  "endereco": {
+    "end_id": 1,
+    "end_tipo_logradouro": "Bloco III",
+    "end_logradouro": "Rua C - Complexo Paiaguás",
+    "end_numero": 34,
+    "end_bairro": "Centro Político Administrativo",
+    "cid_id": 1,
+    "created_at": "2025-04-04T15:23:09.000000Z",
+    "updated_at": "2025-04-04T15:23:09.000000Z",
+    "cidade": {
+      "cid_id": 1,
+      "cid_nome": "Cuiabá",
+      "cid_uf": "MT",
+      "created_at": "2025-04-04T15:23:09.000000Z",
+      "updated_at": "2025-04-04T15:23:09.000000Z"
+    }
+  }
+}
+```
+
+

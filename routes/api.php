@@ -80,13 +80,16 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     /* Rotas para as Foto Pessoa */
-    Route::get('foto-pessoa', [FotoPessoaController::class, 'index']);
-    Route::post('foto-pessoa', [FotoPessoaController::class, 'store']);
-    Route::get('foto-pessoa/{fp_id}', [FotoPessoaController::class, 'show']);
-    Route::put('foto-pessoa/{fp_id}', [FotoPessoaController::class, 'update']);
-    Route::delete('foto-pessoa/{fp_id}', [FotoPessoaController::class, 'destroy']);
+    //Route::get('foto-pessoa', [FotoPessoaController::class, 'index']);
+    
+    Route::post('foto-pessoa', [FotoPessoaController::class, 'upload']);
+    //Route::post('foto-pessoa', [FileController::class, 'store']);
+    
+    //Route::get('foto-pessoa/{fp_id}', [FotoPessoaController::class, 'show']);
+    //Route::put('foto-pessoa/{fp_id}', [FotoPessoaController::class, 'update']);
+    //Route::delete('foto-pessoa/{fp_id}', [FotoPessoaController::class, 'destroy']);
 
-    Route::apiResource('files', FileController::class);
+    //Route::apiResource('files', FileController::class);
 
 });
 

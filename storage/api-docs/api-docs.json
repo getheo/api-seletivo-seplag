@@ -26,7 +26,7 @@
                     {
                         "name": "password",
                         "in": "query",
-                        "description": "Informe a senha",
+                        "description": "Insira a senha",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -94,7 +94,7 @@
                     "Cidades"
                 ],
                 "summary": "Mostra as Cidades cadastradas",
-                "description": "Lista as Cidades",
+                "description": "Lista todas as Cidades",
                 "operationId": "1eec1560cb76079fb0c015e722618860",
                 "parameters": [
                     {
@@ -322,7 +322,7 @@
                     "Endereços"
                 ],
                 "summary": "Mostra os Endereços cadastrados",
-                "description": "Lista os Endereços",
+                "description": "Lista todas os Endereços",
                 "operationId": "9c10249b6d54a91b77e519f61d558174",
                 "parameters": [
                     {
@@ -584,7 +584,7 @@
                     "Lotações"
                 ],
                 "summary": "Todas as Lotações",
-                "description": "Lista as Lotações",
+                "description": "Lista todas as Lotações",
                 "operationId": "8dfa9caa7bab78e1f9117ec4c572d68e",
                 "parameters": [
                     {
@@ -766,7 +766,7 @@
                     "Pessoas"
                 ],
                 "summary": "Todas as Pessoas",
-                "description": "Lista as Pessoas com seu endereço",
+                "description": "Lista todas as Pessoas com seu endereço",
                 "operationId": "4eb689bcbe5071889ed99546f6e47b9d",
                 "parameters": [
                     {
@@ -963,7 +963,7 @@
                     "Servidores Efetivos"
                 ],
                 "summary": "Servidores Efetivos",
-                "description": "Lista todos os Servidores Efetivos ligados a sua Unidade-Lotação",
+                "description": "Lista todas os Servidores Efetivos com sua Unidade Lotação",
                 "operationId": "4b1c83d6265f7aad3977994940ab58c8",
                 "responses": {
                     "200": {
@@ -1175,7 +1175,7 @@
                     "Servidores Temporários"
                 ],
                 "summary": "Servidores Temporários",
-                "description": "Lista todos os Servidores Temporários ligados a sua Unidade-Lotação",
+                "description": "Lista todos os Servidores Temporários com sua Unidade Lotação",
                 "operationId": "267ac3162f73afe133db19d09dea76a0",
                 "responses": {
                     "200": {
@@ -1414,7 +1414,7 @@
                     "Unidades"
                 ],
                 "summary": "Lista informaçãoes de todas as Unidades",
-                "description": "Exibe todas as Unidades com suas Lotação",
+                "description": "Mostra todas as Unidades com suas Lotação",
                 "operationId": "2250b14b758c20a6048832f40e52f176",
                 "parameters": [
                     {
