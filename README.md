@@ -24,9 +24,9 @@ Este repositório contém um projeto com uma solução que será utilizado exclu
 <br>
 
 ### 🛠 Pré-requisitos
-- GIT instalado para baixar o projeto
-- Docker Desktop instalado
-- Composer (dependências do PHP Laravel)
+- <a href="https://git-scm.com/downloads">GIT</a> instalado para baixar o projeto
+- <a href="https://www.docker.com/products/docker-desktop/">Docker</a> Desktop instalado
+- <a href="https://getcomposer.org/">Composer</a> (dependências do PHP Laravel)
 <br>
 
 ### Faça o Clone do Projeto

@@ -66,7 +66,7 @@ class FotoPessoaController extends Controller
             return response()->json(['message' => 'Pessoa não encontrada', 404]);
         }        
         
-        $path = $request->file('file')->store('fotos/uploads', 's3');
+        $path = $request->file('file')->store('fotos/'.$request->pes_id, 's3');
         //$path = Storage::disk('s3')->put('uploads/{$request->pes_id}', $request->file('file'));
         
         $foto = FotoPessoa::create([
