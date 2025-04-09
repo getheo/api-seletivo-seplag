@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -45,6 +46,13 @@ class Pessoa extends Model
     public function endereco(): HasMany
     {
         return $this->HasMany(Endereco::class, 'end_id', 'end_id');
+    }
+    
+    public function idade(string $idade) 
+    {
+        $date = new DateTime($idade);
+        $interval = $date->diff( new DateTime( date('Y-m-d') ) );
+        return array_push(['idade' => $idade = $interval->format( '%Y anos' )]);
     }
     
 

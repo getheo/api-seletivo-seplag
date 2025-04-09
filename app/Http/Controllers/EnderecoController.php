@@ -163,41 +163,52 @@ class EnderecoController extends Controller
 
 
 
-    }
-
-    /**
-    *  @OA\PUT(
-    *      path="/api/endereco/{end_id}",
-    *      summary="Atualizar dados de um Endereço",
-    *      description="Editar os dados de um Endereço através do (end_id)",
-    *      tags={"Endereços"},
-    *     @OA\Parameter(
-     *         name="end_id",
-     *         in="path",
-     *         required=true,
-     *         description="Nº de identificação do Endereço",
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Dados do Endereço atualizado com sucesso.",
-    *          @OA\MediaType(
-    *              mediaType="application/json",
-    *          )
-    *      ),
-    *      @OA\Response(
-    *          response=404,
-    *          description="Erro ao atualizar o Endereço"
-    *      ),
-    *      security={{"bearerAuth":{}}}
-    *  )
-    */    
+    }    
+    
+    
     public function edit(Endereco $endereco)
     {
         //
     }
     
-    
+    /**
+     * @OA\PUT(
+     *     path="/api/endereco/{end_id}",
+     *     summary="Atualizar dados de um Endereço",
+     *     description="Editar os dados de um Endereço através do (end_id)",
+     *     tags={"Endereços"},     
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"end_tipo_logradouro", "end_logradouro", "end_numero", "end_bairro", "cid_id"},
+     *             @OA\Property(property="end_id", type="integer", example="1"),
+     *             @OA\Property(property="end_tipo_logradouro", type="string", example="Tipo Logradouro"),
+     *             @OA\Property(property="end_logradouro", type="string", example="Logradouro"),
+     *             @OA\Property(property="end_numero", type="integer", example="1"),
+     *             @OA\Property(property="end_bairro", type="string", example="Bairro"),
+     *             @OA\Property(property="cid_id", type="integer", example="1")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Endereco atualizado com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Endereço atualizado com sucesso"),
+     *             @OA\Property(property="endereco", type="object",
+     *             @OA\Property(property="end_id", type="integer", example="1"),
+     *             @OA\Property(property="end_tipo_logradouro", type="string", example="Tipo Logradouro"),
+     *             @OA\Property(property="end_logradouro", type="string", example="Logradouro"),
+     *             @OA\Property(property="end_numero", type="integer", example="1"),
+     *             @OA\Property(property="end_bairro", type="string", example="Bairro"),
+     *             @OA\Property(property="cid_id", type="integer", example="1")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=400, description="Requisição inválida"),
+     *     @OA\Response(response=404, description="Endereco não encontrado"),
+     *     security={{"bearerAuth":{}}}
+     * )
+     */
     public function update(Request $request, Endereco $endereco)
     {
         $validadeData = $request->validate([

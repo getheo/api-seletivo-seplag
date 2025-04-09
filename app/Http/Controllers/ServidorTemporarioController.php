@@ -128,8 +128,7 @@ class ServidorTemporarioController extends Controller
 
             $validadeData = $request->validate([
                 'pes_id' => 'required|integer',
-                'st_data_admissao' => 'required|date',
-                'st_data_demissao' => 'required|date',
+                'st_data_admissao' => 'required|string',                
             ]);
     
             $servidorTemporario = ServidorTemporario::create([            
@@ -138,7 +137,7 @@ class ServidorTemporarioController extends Controller
                 'st_data_demissao' => $validadeData['st_data_demissao'],
             ]);
     
-            return response()->json("Servidor Temporário cadastrado com sucesso.", 201);
+            return response()->json("Servidor Temporário cadastrado com sucesso.", 200);
             
 
         } else {

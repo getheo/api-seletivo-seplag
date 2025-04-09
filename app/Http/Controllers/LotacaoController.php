@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lotacao;
+use App\Models\Pessoa;
+use App\Models\Unidade;
 use Illuminate\Http\Request;
 
 class LotacaoController extends Controller
@@ -44,10 +46,84 @@ class LotacaoController extends Controller
         //
     }
 
+    /**
+    *  @OA\POST(
+    *      path="/api/lotacao",
+    *      summary="Cadastra vinculo de Pessoa com Unidade",
+    *      description="Registra Pessoa com Unidade",
+    *      tags={"Lotações"},
+    *     @OA\Parameter(
+    *         name="pes_id",
+    *         in="query",
+    *         description="Nº identificação da pessoa",
+    *         required=true,
+    *      ),
+    *     @OA\Parameter(
+    *         name="unid_id",
+    *         in="query",
+    *         description="Nº identificação da Unidade",
+    *         required=true,  
+    *      ),      
+    *     @OA\Parameter(
+    *         name="lot_data_lotacao",
+    *         in="query",
+    *         description="Data lotação",
+    *         required=true,  
+    *      ),  
+    *     @OA\Parameter(
+    *         name="lot_data_remocao",
+    *         in="query",
+    *         description="Data remoção",
+    *         required=false,  
+    *      ),          
+    *     @OA\Parameter(
+    *         name="lot_portaria",
+    *         in="query",
+    *         description="Portaria",
+    *         required=false,  
+    *      ),      
+    *      @OA\Response(
+    *          response=200,
+    *          description="OK",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Erro"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */
     public function store(Request $request)
     {
-        //
+        $lotacao = Lotacao::where(['pes_id' => $request->pes_id, 'unid_id' => $request->unid_id])->first();
+        //$pessoa = Pessoa::where('pes_id', $request->pes_id)->first();
+        //$unidade = Unidade::where('unid_id', $request->unid_id)->first();
+
+        if (!$lotacao) {             
+
+            $validadeData = $request->validate([            
+                'pes_id' => 'required|integer',
+                'unid_id' => 'required|integer',
+                'lot_data_lotacao' => 'required|string',
+            ]);
+    
+            $lotacao = Lotacao::create([            
+                'pes_id' => $validadeData['pes_id'],
+                'unid_id' => $validadeData['unid_id'],
+                'lot_data_lotacao' => $validadeData['lot_data_lotacao'],
+                'lot_data_remocao' => $validadeData['lot_data_remocao'],
+                'lot_portaria' => $validadeData['lot_portaria'],
+            ]);
+            
+            return response()->json(['message' => 'Lotação da Pessoa com Unidade cadastrada com sucesso.','lotacao' => $lotacao], 200);
+        }
+
+        return response()->json(['message' => 'Lotação da Pessoa com Unidade já cadastrada.', 404]);
     }
+    
 
     /**
     *  @OA\GET(
@@ -129,32 +205,43 @@ class LotacaoController extends Controller
     }
 
     /**
-    *  @OA\PUT(
-    *      path="/api/lotacao/{lot_id}",
-    *      summary="Atualizar dados de uma Lotação",
-    *      description="Editar os dados de uma Lotação através do (lot_id)",
-    *      tags={"Lotações"},
-    *     @OA\Parameter(
-     *         name="lot_id",
-     *         in="path",
+     * @OA\PUT(
+     *     path="/api/lotacao/{lot_id}",
+     *     summary="Atualiza Lotacao",
+     *     description="Atualiza os dados de uma Lotacao",
+     *     tags={"Lotações"},     
+     *     @OA\RequestBody(
      *         required=true,
-     *         description="Nº de identificação da lotação",
-     *         @OA\Schema(type="integer", example=1)
+     *         @OA\JsonContent(
+     *             required={"lot_id", "pes_id", "unid_id", "lot_data_lotacao"},
+     *             @OA\Property(property="lot_id", type="integer", example="1"),
+     *             @OA\Property(property="pes_id", type="integer", example="1"),
+     *             @OA\Property(property="unid_id", type="integer", example="1"),
+     *             @OA\Property(property="lot_data_lotacao", type="string", example="2024-01-01"),
+     *             @OA\Property(property="lot_data_remocao", type="string", example="2025-12-01"),
+     *             @OA\Property(property="lot_portaria", type="string", example="Portaria 1")
+     *         )
      *     ),
-    *      @OA\Response(
-    *          response=200,
-    *          description="Dados da Lotação atualizado com sucesso.",
-    *          @OA\MediaType(
-    *              mediaType="application/json",
-    *          )
-    *      ),
-    *      @OA\Response(
-    *          response=404,
-    *          description="Erro ao atualizar a Lotação"
-    *      ),
-    *      security={{"bearerAuth":{}}}
-    *  )
-    */ 
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lotacao atualizada com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Lotacao atualizada com sucesso"),
+     *             @OA\Property(property="lotacao", type="object",
+     *                 @OA\Property(property="lot_id", type="integer", example=1),
+     *                 @OA\Property(property="pes_id", type="integer", example=1), 
+     *                 @OA\Property(property="unid_id", type="integer", example=1),
+     *                 @OA\Property(property="lot_data_lotacao", type="string", example="2024-01-01"),
+     *                 @OA\Property(property="lot_data_remocao", type="string", example="2025-12-01"),
+     *                 @OA\Property(property="lot_portaria", type="string", example="Portaria 1")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=400, description="Requisição inválida"),
+     *     @OA\Response(response=404, description="Lotacao não encontrado"),
+     *     security={{"bearerAuth":{}}}
+     * )
+     */ 
     public function update(Request $request, Lotacao $lotacao)
     {
         $validadeData = $request->validate([            

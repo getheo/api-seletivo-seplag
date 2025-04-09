@@ -185,7 +185,46 @@ class PessoaController extends Controller
     *      ),
     *      security={{"bearerAuth":{}}}
     *  )
-    */    
+    */   
+    
+    /**
+     * @OA\PUT(
+     *     path="/api/pessoa/{pes_id}",
+     *     summary="Atualizar dados de uma Pessoa",
+     *     description="Editar os dados de uma pessoa através do (pes_id)",
+     *     tags={"Pessoas"},     
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"pes_id", "pes_nome", "pes_data_nascimento", "pes_sexo", "pes_mae", "pes_pai"},
+     *             @OA\Property(property="pes_id", type="integer", example="1"),
+     *             @OA\Property(property="pes_nome", type="string", example="Nome pessoa"),
+     *             @OA\Property(property="pes_data_nascimento", type="string", example="2020-10-10"),
+     *             @OA\Property(property="pes_sexo", type="string", example="M"),
+     *             @OA\Property(property="pes_mae", type="string", example="Mae Pessoa"),
+     *             @OA\Property(property="pes_pai", type="string", example="Pai Pessoa")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Pessoa atualizado com sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Endereço atualizado com sucesso"),
+     *             @OA\Property(property="pessoa", type="object",
+     *             @OA\Property(property="pes_id", type="integer", example="1"),
+     *             @OA\Property(property="pes_nome", type="string", example="Nome Pessoa"),
+     *             @OA\Property(property="pes_data_nascimento", type="string", example="2020-01-01"),
+     *             @OA\Property(property="pes_sexo", type="string", example="M"),
+     *             @OA\Property(property="pes_mae", type="string", example="Mae Pessoa"),
+     *             @OA\Property(property="pes_pai", type="string", example="Pai Pessoa")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=400, description="Requisição inválida"),
+     *     @OA\Response(response=404, description="Endereco não encontrado"),
+     *     security={{"bearerAuth":{}}}
+     * )
+     */
     public function edit(Pessoa $pessoa)
     {
         //

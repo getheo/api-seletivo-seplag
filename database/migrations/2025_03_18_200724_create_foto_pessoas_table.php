@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigIncrements('fp_id');
             $table->foreignId('pes_id')->constrained('pessoa', 'pes_id');
             $table->dateTime('fp_data');
-            $table->string('fp_bucket', 255)->unique();            
+            $table->string('fp_bucket', 255);            
             $table->string('fp_hash', 255)->unique();
             $table->timestamps();
         });

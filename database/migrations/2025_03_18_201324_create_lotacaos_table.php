@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('unid_id')->constrained('unidade', 'unid_id');
             $table->date('lot_data_lotacao');
             $table->date('lot_data_remocao')->nullable();
-            $table->string('lot_portaria', 100);
+            $table->string('lot_portaria', 100)->nullable();
             $table->timestamps();
         });
     }

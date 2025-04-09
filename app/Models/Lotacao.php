@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Lotacao extends Model
@@ -35,10 +36,10 @@ class Lotacao extends Model
         return $this->belongsTo(ServidorTemporario::class, 'pes_id', 'pes_id');
     }
 
-    public function pessoa(): BelongsTo
+    public function pessoa(): HasMany
     {
-        return $this->belongsTo(Pessoa::class, 'pes_id', 'pes_id');
-    }
+        return $this->hasMany(Pessoa::class, 'pes_id', 'pes_id')->with('pessoaFoto');
+    }    
 
     public function unidade(): HasOne
     {

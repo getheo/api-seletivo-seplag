@@ -144,7 +144,7 @@ class CidadeController extends Controller
 
     /**
      * @OA\PUT(
-     *     path="/api/cidade/{ci_id}",
+     *     path="/api/cidade/{cid_id}",
      *     summary="Atualiza Cidade",
      *     description="Atualiza os dados de uma Cidade",
      *     tags={"Cidades"},     

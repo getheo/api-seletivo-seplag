@@ -7,6 +7,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\FotoPessoaController;
 use App\Http\Controllers\LotacaoController;
 use App\Http\Controllers\PessoaController;
+use App\Http\Controllers\PessoaEnderecoController;
 use App\Http\Controllers\ServidorEfetivoController;
 use App\Http\Controllers\ServidorTemporarioController;
 use App\Http\Controllers\UnidadeController;
@@ -41,6 +42,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('pessoa/{pes_id}', [PessoaController::class, 'show']);
     Route::put('pessoa/{pes_id}', [PessoaController::class, 'update']);
     Route::delete('pessoa/{pes_id}', [PessoaController::class, 'destroy']);
+
+    Route::post('pessoaendereco', [PessoaEnderecoController::class, 'store']);
 
     /* Rotas para as Endereços */
     Route::get('endereco', [EnderecoController::class, 'index']);
@@ -77,6 +80,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('servidor-efetivo/{pes_id}', [ServidorEfetivoController::class, 'show']);
     Route::put('servidor-efetivo/{pes_id}', [ServidorEfetivoController::class, 'update']);
     Route::delete('servidor-efetivo/{pes_id}', [ServidorEfetivoController::class, 'destroy']);
+
+    Route::get('servidor-efetivo/unidade/{pes_nome}', [ServidorEfetivoController::class, 'showServidor']);
 
 
     /* Rotas para as Foto Pessoa */

@@ -74,6 +74,45 @@ class ServidorEfetivoController extends Controller
         
     }
 
+    /**
+    *  @OA\GET(
+    *      path="/api/servidor-efetivo/unidade/{pes_nome}",
+    *      summary="Pesquisa o endereço funcional (da unidade onde o servidor é lotado) a partir de uma parte do nome",
+    *      description="Pesquisa o endereço funcional ",
+    *      tags={"Servidores Efetivos"},
+    *     @OA\Parameter(
+     *         name="pes_nome",
+     *         in="path",
+     *         required=true,
+     *         description="Pesquiso pelo nome",
+     *         @OA\Schema(type="string", example="Parte do nome do servidor")
+     *     ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Servidor Encontrado",
+    *          @OA\MediaType(
+    *              mediaType="application/json",
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Pessoa não encontrada"
+    *      ),
+    *      security={{"bearerAuth":{}}}
+    *  )
+    */
+    public function showServidor(string $pes_nome)
+    {
+        $pessoa = Pessoa::with('servidorEfetivo.lotacaoAtiva')->where('pes_nome', 'LIKE', '%'.$pes_nome.'%')->first();        
+        //$servidorEfetivo = ServidorEfetivo::where('pes_id', $pessoa->pes_id)->with(['pessoa', 'lotacaoAtiva'])->first();
+
+        if($pessoa){          
+                return response()->json(['message' => 'Servidor Efetivo encontrado.','servidor-efetivo' => $pessoa]);            
+        }        
+        return response()->json(['message' => 'Servidor Efetivo não encontrado', 404]);
+        
+    }
+
     public function create()
     {
         //

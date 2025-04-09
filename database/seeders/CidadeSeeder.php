@@ -33,5 +33,19 @@ class CidadeSeeder extends Seeder
                 'cid_uf' => 'MT',
             ]);
         }
+
+        if (!Cidade::where('cid_nome', 'Cáceres')->first()) {
+            Cidade::create([                                
+                'cid_nome' => 'Cáceres',
+                'cid_uf' => 'MT',
+            ]);
+        }
+
+        if (!Cidade::where('cid_nome', 'Primavera do Leste')->first()) {
+            Cidade::create([                                
+                'cid_nome' => 'Primavera do Leste',
+                'cid_uf' => 'MT',
+            ]);
+        }
     }
 }

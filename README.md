@@ -5,8 +5,8 @@
 Candidato: Guilherme Théo Coleta Arruda<br>
 CPF: 916.496.921-53<br>
 
-- Inscrição: 8066 - Perfil: DESENVOLVEDOR PHP - SÊNIOR
-- Inscrição: 8534 - Perfil: DESENVOLVEDOR PHP - PLENO
+- Inscrição: 9347 - Perfil: DESENVOLVEDOR PHP - SÊNIOR
+- Inscrição: 9318 - Perfil: DESENVOLVEDOR PHP - PLENO
 <br>
 
 ## Projeto API REST em PHP Laravel + base de dados postgreSQL + Docker Compose.
@@ -272,13 +272,14 @@ Abaixo estão os principais endpoints da API.
 - Servidor Efetivo
 
 
-| Método  | Endpoint                         | Descrição                              |                                 Parâmetros / Corpo                             |
-|---------|----------------------------------|----------------------------------------|--------------------------------------------------------------------------------|
-| `GET`   | `/api/servidor-efetivo`          | Retorna os servidores efetivos         | (paginado)                                                                     |
-| `GET`   | `/api/servidor-efetivo/{pes_id}` | Retorna um servidor efetivo específico | `pes_id`                                                                       |
-| `POST`  | `/api/servidor-efetivo`          | Cadastra um novo servidor efetivo      | `{ "pes_id": "1", "se_matricula": "00001" }` (necessário cadastrar uma pessoa) |
-| `PUT`   | `/api/servidor-efetivo/pes_{id}` | Atualiza um servidor efetivo           | `{ "unid_nome": "Novo nome" }`                                                 |
-| `DELETE`| `/api/servidor-efetivo/{pes_id}` | Exclui um servidor efetivo             | `pes_id`                                                                       |
+| Método  | Endpoint                                   | Descrição                              |                                 Parâmetros / Corpo                             |
+|---------|--------------------------------------------|----------------------------------------|--------------------------------------------------------------------------------|
+| `GET`   | `/api/servidor-efetivo`                    | Retorna os servidores efetivos         | (paginado)                                                                     |
+| `GET`   | `/api/servidor-efetivo/{pes_id}`           | Retorna um servidor efetivo específico | `pes_id`                                                                       |
+| `GET`   | `/api/servidor-efetivo/unidade/{pes_nome}` | Pesquisa por parte do nome             | `{ "unid_nome": "Busca por parte do nome" }`                                   |
+| `POST`  | `/api/servidor-efetivo`                    | Cadastra um novo servidor efetivo      | `{ "pes_id": "1", "se_matricula": "00001" }` (necessário cadastrar uma pessoa) |
+| `PUT`   | `/api/servidor-efetivo/pes_{id}`           | Atualiza um servidor efetivo           | `{ "unid_nome": "Novo nome" }`                                                 |
+| `DELETE`| `/api/servidor-efetivo/{pes_id}`           | Exclui um servidor efetivo             | `pes_id`                                                                       |
 
 
 ### 🔄 Exemplo de Requisição
@@ -384,5 +385,28 @@ Abaixo estão os principais endpoints da API.
   }
 }
 ```
+
+---
+
+- Foto Pessoa
+
+
+| Método  | Endpoint               | Descrição                      |            arâmetros / Corpo            |
+|---------|------------------------|--------------------------------|-----------------------------------------|
+| `POST`  | `/api/foto-pessoa`     | Cadastra uma foto para pessoa  | `{ "pes_id": "1", "file": "foto.jpg" }` |
+
+
+### 🔄 Exemplo de Requisição
+
+##### Cadastrar uma foto para uma pessoa (POST `/api/foto-pessoa`)
+
+```json
+{
+  "pes_id": "1",
+  "file": "foto.jpg"
+}
+```
+
+---
 
 

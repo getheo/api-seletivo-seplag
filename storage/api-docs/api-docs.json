@@ -189,51 +189,13 @@
                     }
                 ]
             },
-            "delete": {
-                "tags": [
-                    "Cidades"
-                ],
-                "summary": "Exclui uma Cidade",
-                "description": "Exclui uma Cidde através do (cid_id)",
-                "operationId": "e9ed713c0e97583a24b97b0f3e835002",
-                "parameters": [
-                    {
-                        "name": "cid_id",
-                        "in": "path",
-                        "description": "ID da Cidade",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Cidade excluída com sucesso",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "404": {
-                        "description": "Não foi possível excluir a Cidade"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/cidade/{ci_id}": {
             "put": {
                 "tags": [
                     "Cidades"
                 ],
                 "summary": "Atualiza Cidade",
                 "description": "Atualiza os dados de uma Cidade",
-                "operationId": "4e4499e98d101b89a9ce935f1a7ada3f",
+                "operationId": "ba67455364ca116284a12db6934b798c",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -302,6 +264,42 @@
                     },
                     "404": {
                         "description": "Cidade não encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Cidades"
+                ],
+                "summary": "Exclui uma Cidade",
+                "description": "Exclui uma Cidde através do (cid_id)",
+                "operationId": "e9ed713c0e97583a24b97b0f3e835002",
+                "parameters": [
+                    {
+                        "name": "cid_id",
+                        "in": "path",
+                        "description": "ID da Cidade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cidade excluída com sucesso",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Não foi possível excluir a Cidade"
                     }
                 },
                 "security": [
@@ -441,28 +439,101 @@
                 ],
                 "summary": "Atualizar dados de um Endereço",
                 "description": "Editar os dados de um Endereço através do (end_id)",
-                "operationId": "8b02ed4414290f74a731935477be7b5b",
-                "parameters": [
-                    {
-                        "name": "end_id",
-                        "in": "path",
-                        "description": "Nº de identificação do Endereço",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
+                "operationId": "f04f04d95f657d8fc315bde99f85b1b4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "end_tipo_logradouro",
+                                    "end_logradouro",
+                                    "end_numero",
+                                    "end_bairro",
+                                    "cid_id"
+                                ],
+                                "properties": {
+                                    "end_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "end_tipo_logradouro": {
+                                        "type": "string",
+                                        "example": "Tipo Logradouro"
+                                    },
+                                    "end_logradouro": {
+                                        "type": "string",
+                                        "example": "Logradouro"
+                                    },
+                                    "end_numero": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "end_bairro": {
+                                        "type": "string",
+                                        "example": "Bairro"
+                                    },
+                                    "cid_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
-                        "description": "Dados do Endereço atualizado com sucesso.",
+                        "description": "Endereco atualizado com sucesso",
                         "content": {
-                            "application/json": {}
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Endereço atualizado com sucesso"
+                                        },
+                                        "endereco": {
+                                            "properties": {
+                                                "end_id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "end_tipo_logradouro": {
+                                                    "type": "string",
+                                                    "example": "Tipo Logradouro"
+                                                },
+                                                "end_logradouro": {
+                                                    "type": "string",
+                                                    "example": "Logradouro"
+                                                },
+                                                "end_numero": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "end_bairro": {
+                                                    "type": "string",
+                                                    "example": "Bairro"
+                                                },
+                                                "cid_id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
                         }
                     },
+                    "400": {
+                        "description": "Requisição inválida"
+                    },
                     "404": {
-                        "description": "Erro ao atualizar o Endereço"
+                        "description": "Endereco não encontrado"
                     }
                 },
                 "security": [
@@ -605,6 +676,62 @@
                         "bearerAuth": []
                     }
                 ]
+            },
+            "post": {
+                "tags": [
+                    "Lotações"
+                ],
+                "summary": "Cadastra vinculo de Pessoa com Unidade",
+                "description": "Registra Pessoa com Unidade",
+                "operationId": "92934afd954b2eabfe7f5ec796286dfe",
+                "parameters": [
+                    {
+                        "name": "pes_id",
+                        "in": "query",
+                        "description": "Nº identificação da pessoa",
+                        "required": true
+                    },
+                    {
+                        "name": "unid_id",
+                        "in": "query",
+                        "description": "Nº identificação da Unidade",
+                        "required": true
+                    },
+                    {
+                        "name": "lot_data_lotacao",
+                        "in": "query",
+                        "description": "Data lotação",
+                        "required": true
+                    },
+                    {
+                        "name": "lot_data_remocao",
+                        "in": "query",
+                        "description": "Data remoção",
+                        "required": false
+                    },
+                    {
+                        "name": "lot_portaria",
+                        "in": "query",
+                        "description": "Portaria",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Erro"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/lotacao/{lot_id}": {
@@ -648,30 +775,102 @@
                 "tags": [
                     "Lotações"
                 ],
-                "summary": "Atualizar dados de uma Lotação",
-                "description": "Editar os dados de uma Lotação através do (lot_id)",
+                "summary": "Atualiza Lotacao",
+                "description": "Atualiza os dados de uma Lotacao",
                 "operationId": "265de7d0394a0ca9d15edcf6e07c3673",
-                "parameters": [
-                    {
-                        "name": "lot_id",
-                        "in": "path",
-                        "description": "Nº de identificação da lotação",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "lot_id",
+                                    "pes_id",
+                                    "unid_id",
+                                    "lot_data_lotacao"
+                                ],
+                                "properties": {
+                                    "lot_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "pes_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "unid_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "lot_data_lotacao": {
+                                        "type": "string",
+                                        "example": "2024-01-01"
+                                    },
+                                    "lot_data_remocao": {
+                                        "type": "string",
+                                        "example": "2025-12-01"
+                                    },
+                                    "lot_portaria": {
+                                        "type": "string",
+                                        "example": "Portaria 1"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
-                        "description": "Dados da Lotação atualizado com sucesso.",
+                        "description": "Lotacao atualizada com sucesso",
                         "content": {
-                            "application/json": {}
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lotacao atualizada com sucesso"
+                                        },
+                                        "lotacao": {
+                                            "properties": {
+                                                "lot_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "pes_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "unid_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "lot_data_lotacao": {
+                                                    "type": "string",
+                                                    "example": "2024-01-01"
+                                                },
+                                                "lot_data_remocao": {
+                                                    "type": "string",
+                                                    "example": "2025-12-01"
+                                                },
+                                                "lot_portaria": {
+                                                    "type": "string",
+                                                    "example": "Portaria 1"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
                         }
                     },
+                    "400": {
+                        "description": "Requisição inválida"
+                    },
                     "404": {
-                        "description": "Erro ao atualizar a Lotação"
+                        "description": "Lotacao não encontrado"
                     }
                 },
                 "security": [
@@ -886,27 +1085,101 @@
                 "summary": "Atualizar dados de uma Pessoa",
                 "description": "Editar os dados de uma pessoa através do (pes_id)",
                 "operationId": "d37bc219d1bc0be7373c182ad052df92",
-                "parameters": [
-                    {
-                        "name": "pes_id",
-                        "in": "path",
-                        "description": "Nº de identificação da pessoa",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "example": 1
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "pes_id",
+                                    "pes_nome",
+                                    "pes_data_nascimento",
+                                    "pes_sexo",
+                                    "pes_mae",
+                                    "pes_pai"
+                                ],
+                                "properties": {
+                                    "pes_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "pes_nome": {
+                                        "type": "string",
+                                        "example": "Nome pessoa"
+                                    },
+                                    "pes_data_nascimento": {
+                                        "type": "string",
+                                        "example": "2020-10-10"
+                                    },
+                                    "pes_sexo": {
+                                        "type": "string",
+                                        "example": "M"
+                                    },
+                                    "pes_mae": {
+                                        "type": "string",
+                                        "example": "Mae Pessoa"
+                                    },
+                                    "pes_pai": {
+                                        "type": "string",
+                                        "example": "Pai Pessoa"
+                                    }
+                                },
+                                "type": "object"
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
-                        "description": "Dados da Pessoa atualizado com sucesso.",
+                        "description": "Pessoa atualizado com sucesso",
                         "content": {
-                            "application/json": {}
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Endereço atualizado com sucesso"
+                                        },
+                                        "pessoa": {
+                                            "properties": {
+                                                "pes_id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "pes_nome": {
+                                                    "type": "string",
+                                                    "example": "Nome Pessoa"
+                                                },
+                                                "pes_data_nascimento": {
+                                                    "type": "string",
+                                                    "example": "2020-01-01"
+                                                },
+                                                "pes_sexo": {
+                                                    "type": "string",
+                                                    "example": "M"
+                                                },
+                                                "pes_mae": {
+                                                    "type": "string",
+                                                    "example": "Mae Pessoa"
+                                                },
+                                                "pes_pai": {
+                                                    "type": "string",
+                                                    "example": "Pai Pessoa"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
                         }
                     },
+                    "400": {
+                        "description": "Requisição inválida"
+                    },
                     "404": {
-                        "description": "Erro ao atualizar a Pessoa"
+                        "description": "Endereco não encontrado"
                     }
                 },
                 "security": [
@@ -943,6 +1216,46 @@
                     },
                     "404": {
                         "description": "Não foi possível excluir a pessoa"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/pessoaendereco": {
+            "post": {
+                "tags": [
+                    "Pessoas"
+                ],
+                "summary": "Cadastra vinculo de Pessoa com endereco",
+                "description": "Registra o endereço de uma pessoa",
+                "operationId": "9756b19a5a5745144253b61897ad06fe",
+                "parameters": [
+                    {
+                        "name": "pes_id",
+                        "in": "query",
+                        "description": "Nº identificação da pessoa",
+                        "required": true
+                    },
+                    {
+                        "name": "end_id",
+                        "in": "query",
+                        "description": "Nº identificação do endereço",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Erro"
                     }
                 },
                 "security": [
@@ -1155,6 +1468,44 @@
                     },
                     "404": {
                         "description": "Não foi possível excluir a informação de servidor efetivo."
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/servidor-efetivo/unidade/{pes_nome}": {
+            "get": {
+                "tags": [
+                    "Servidores Efetivos"
+                ],
+                "summary": "Pesquisa o endereço funcional (da unidade onde o servidor é lotado) a partir de uma parte do nome",
+                "description": "Pesquisa o endereço funcional ",
+                "operationId": "482da1a57ca103a21331c68a5a2c1398",
+                "parameters": [
+                    {
+                        "name": "pes_nome",
+                        "in": "path",
+                        "description": "Pesquiso pelo nome",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Parte do nome do servidor"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Servidor Encontrado",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Pessoa não encontrada"
                     }
                 },
                 "security": [
